@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姚鼐生平地图 | 桐城派古文大家</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        html, body { margin: 0; height: 100%; font-family: "Microsoft YaHei", serif; }
+        #map { width: 100%; height: 100%; }
+
+        /* 顶部标题栏 */
+        .map-header {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 1000; background: rgba(255,255,255,0.95); padding: 12px 24px;
+            border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;
+        }
+        .map-header h1 { margin: 0; font-size: 20px; color: #2c3e50; font-weight: 600; }
+        .map-header p { margin: 4px 0 0 0; font-size: 12px; color: #7f8c8d; }
+
+        /* 左下角完整时间轴 */
+        .timeline {
+            position: absolute; bottom: 30px; left: 20px; z-index: 1000;
+            background: rgba(255,255,255,0.95); padding: 15px; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 280px; max-height: 70vh;
+            overflow-y: auto;
+        }
+        .timeline h3 { margin: 0 0 10px 0; font-size: 16px; color: #c0392b; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .timeline-item { margin-bottom: 12px; padding-left: 20px; position: relative; cursor: pointer; }
+        .timeline-item:hover { background: #f8f9fa; border-radius: 4px; padding-left: 18px; }
+        .timeline-item:before {
+            content: ''; position: absolute; left: 0; top: 5px;
+            width: 12px; height: 12px; border-radius: 50%; background: #c0392b;
+        }
+        .timeline-item:after {
+            content: ''; position: absolute; left: 5px; top: 17px; bottom: -12px;
+            width: 2px; background: #bdc3c7;
+        }
+        .timeline-item:last-child:after { display: none; }
+        .timeline-title { font-weight: bold; font-size: 14px; color: #2c3e50; }
+        .timeline-year { color: #e74c3c; font-size: 12px; margin-right: 5px; }
+        .timeline-desc { font-size: 12px; color: #7f8c8d; line-height: 1.4; margin: 2px 0 0 0; }
+
+        /* 弹窗样式 */
+        .custom-popup .location-title { font-size: 15px; font-weight: bold; color: #c0392b; margin: 0 0 5px; }
+        .custom-popup .location-desc { font-size: 13px; color: #34495e; line-height: 1.5; margin: 0; }
+        .custom-popup .year { color: #e74c3c; font-weight: bold; }
+        .custom-popup .group-sub { margin: 6px 0; padding: 5px; background: #f8f9fa; border-radius: 4px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <!-- 顶部标题 -->
+    <div class="map-header">
+        <h1>姚鼐生平地图</h1>
+        <p>桐城派古文集大成者 · 一生游历与学术轨迹</p >
+    </div>
+    <!-- 左下角时间轴容器 -->
+    <div class="timeline">
+        <h3>生平时间线</h3>
+        <div id="timeline-content"></div>
+    </div>
+
+    <script>
+        // 初始化地图
+        var map = L.map('map').setView([32.0, 117.5], 7);
+        L.tileLayer('https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+            attribution: '© 高德地图'
+        }).addTo(map);
+
+        // 国风图标定义（核心/学术）
+        var coreIcon = L.divIcon({
+            html: '<div style="width:32px;height:32px;background:#c0392b;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:12px;">核</div>',
+            iconSize: [32, 32], iconAnchor: [16, 16]
+        });
+        var studyIcon = L.divIcon({
+            html: '<div style="width:28px;height:28px;background:#34495e;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:10px;">学</div>',
+            iconSize: [28, 28], iconAnchor: [14, 14]
+        });
+
+        // 🔥 整理好的7个生平事件（按时间排序，含对应经纬度）
+        var allTimelineEvents = [
+            { lnglat: [31.06, 117.29], title: "出生地：安徽桐城", year: "1732年", desc: "姚鼐生于桐城麻溪姚氏家族，自幼受家学熏陶，奠定古文基础。", type: "core" },
+            { lnglat: [39.90, 116.40], title: "求学与科举：北京", year: "1757-1763年", desc: "赴京参加科举考试，中进士，入选翰林院庶吉士，后授翰林院编修。", type: "study" },
+            { lnglat: [39.90, 116.40], title: "编修《四库全书》：北京", year: "1773-1787年", desc: "参与《四库全书》编纂，负责整理古籍，学术思想走向成熟。", type: "core" },
+            { lnglat: [39.90, 116.40], title: "辞官归乡：北京", year: "1787年", desc: "因厌倦官场纷争，辞官南归，从此专心治学与讲学。", type: "study" },
+            { lnglat: [31.23, 121.47], title: "游历江南：上海", year: "1790年代", desc: "游历江南各地，与文人交游，拓展学术视野，深化古文理论。", type: "study" },
+            { lnglat: [32.06, 118.78], title: "主讲钟山书院：南京", year: "1790-1815年", desc: "在南京钟山书院讲学四十余年，传授桐城派古文，培养大批弟子。", type: "core" },
+            { lnglat: [32.06, 118.78], title: "终老之地：南京", year: "1815年", desc: "姚鼐卒于南京钟山书院，享年84岁，葬于桐城。", type: "core" }
+        ];
+
+        // 🗺️ 地图分组标记点（桐城/上海独立，北京/南京分组，易点击）
+        var mapMarkers = [
+            { lnglat: [31.06, 117.29], title: "出生地：安徽桐城", year: "1732年", desc: "姚鼐生于桐城麻溪姚氏家族，自幼受家学熏陶，奠定古文基础。", type: "core" },
+            { lnglat: [39.90, 116.40], group: true, title: "北京生平", items: [
+                { title: "求学与科举", year: "1757-1763年", desc: "赴京参加科举，中进士，授翰林院编修。" },
+                { title: "编修《四库全书》", year: "1773-1787年", desc: "参与《四库全书》编纂，学术思想成熟。" },
+                { title: "辞官归乡", year: "1787年", desc: "厌倦官场，辞官南归，专心治学讲学。" }
+            ]},
+            { lnglat: [32.06, 118.78], group: true, title: "南京生平", items: [
+                { title: "主讲钟山书院", year: "1790-1815年", desc: "在钟山书院讲学四十余年，传播桐城派古文。" },
+                { title: "终老之地", year: "1815年", desc: "卒于南京，葬于桐城，享年84岁。" }
+            ]},
+            { lnglat: [31.23, 121.47], title: "游历江南：上海", year: "1790年代", desc: "游历江南，与文人交游，拓展学术视野。", type: "study" }
+        ];
+
+        // 渲染地图标记点
+        mapMarkers.forEach(item => {
+            let marker, icon;
+            if (item.group) {
+                // 分组点用核心图标
+                marker = L.marker(item.lnglat, { icon: coreIcon }).addTo(map);
+                // 分组弹窗内容
+                let popupContent = `<div class="custom-popup"><div class="location-title">${item.title}</div>`;
+                item.items.forEach(i => {
+                    popupContent += `
+                        <div class="group-sub">
+                            <div class="year">${i.year}</div>
+                            <div><strong>${i.title}</strong></div>
+                            <div>${i.desc}</div>
+                        </div>
+                    `;
+                });
+                popupContent += `</div>`;
+                marker.bindPopup(popupContent, { maxWidth: 300 });
+            } else {
+                // 独立点按类型选图标
+                icon = item.type === "core" ? coreIcon : studyIcon;
+                marker = L.marker(item.lnglat, { icon: icon }).addTo(map);
+                // 独立点弹窗
+                marker.bindPopup(`
+                    <div class="custom-popup">
+                        <div class="location-title">${item.title}</div>
+                        <div class="location-desc">
+                            <span class="year">${item.year}</span><br>${item.desc}
+                        </div>
+                    </div>
+                `);
+            }
+            // 给每个地图标记绑定唯一标识，用于时间轴跳转
+            marker._eventTitle = item.title;
+        });
+
+        // 🔥 渲染完整7个事件的时间轴 + 点击跳转功能
+        function renderFullTimeline() {
+            const timelineEl = document.getElementById('timeline-content');
+            timelineEl.innerHTML = ''; // 清空原有内容
+            allTimelineEvents.forEach(event => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'timeline-item';
+                // 时间轴条目内容
+                itemEl.innerHTML = `
+                    <div class="timeline-title">${event.title}</div>
+                    <div><span class="timeline-year">${event.year}</span> ${event.desc}</div>
+                `;
+                // 点击时间轴：跳转到对应地点+放大+打开弹窗
+                itemEl.addEventListener('click', () => {
+                    map.setView(event.lnglat, 10); // 地图放大到10级，聚焦地点
+                    // 找到对应地图标记并打开弹窗
+                    map.eachLayer(layer => {
+                        if (layer instanceof L.Marker && layer._eventTitle) {
+                            // 匹配分组/独立点的标题
+                            if (layer._eventTitle.includes('北京') && event.title.includes('北京') ||
+                                layer._eventTitle.includes('南京') && event.title.includes('南京') ||
+                                layer._eventTitle === event.title) {
+                                layer.openPopup();
+                            }
+                        }
+                    });
+                });
+                timelineEl.appendChild(itemEl);
+            });
+        }
+
+        // 执行时间轴渲染
+        renderFullTimeline();
+
+        // 地图自动聚焦所有标记点
+        var bounds = L.latLngBounds(mapMarkers.map(i => i.lnglat));
+        map.fitBounds(bounds, { padding: [50, 50] });
+    </script>
+</body>
+</html>
