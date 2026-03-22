@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姚鼐与桐城派数字传记 - 师承</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            padding: 20px;
+            background-color: #f7f1e3;
+            font-family: "SimSun", "宋体", "Microsoft Yahei", serif;
+            color: #3D2B1F;
+        }
+        .scroll-container {
+            position: relative;
+            width: 100%;
+            min-height: 90vh;
+            padding: 30px 40px;
+            background-color: #f5e9d3;
+            border: 2px solid #b89a76;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .corner-tl, .corner-tr, .corner-bl, .corner-br {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #b89a76;
+        }
+        .corner-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: 6px 0 0 0; }
+        .corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 6px 0 0; }
+        .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 6px; }
+        .corner-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 6px 0; }
+        h1 {
+            font-size: 32px;
+            color: #2D1C12;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #b89a76;
+        }
+        nav {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #b89a76;
+            text-align: center;
+        }
+        nav a {
+            display: inline-block;
+            padding: 6px 18px;
+            margin: 0 8px;
+            background: linear-gradient(180deg, #966f4a 0%, #7a5637 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        nav a.active {
+            background: linear-gradient(180deg, #b0885a 0%, #966f4a 100%);
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .page-title {
+            font-size: 24px;
+            color: #2D1C12;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        #graph-container {
+            width: 100%;
+            height: 500px;
+            border: 2px solid #b89a76;
+            border-radius: 6px;
+            background: rgba(255,253,248,0.8);
+            margin-bottom: 20px;
+        }
+        .guide-panel {
+            position: absolute;
+            top: 160px;
+            left: 40px;
+            width: 260px;
+            padding: 15px;
+            background: rgba(255,253,248,0.95);
+            border: 2px solid #b89a76;
+            border-radius: 6px;
+            font-size: 16px;
+            line-height: 1.8;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .guide-panel h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #2D1C12;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #b89a76;
+        }
+        .guide-panel ul {
+            margin-left: 18px;
+            margin-top: 8px;
+        }
+        .watermark {
+            position: absolute;
+            right: 25px;
+            top: 80px;
+            bottom: 80px;
+            writing-mode: vertical-rl;
+            font-size: 12px;
+            color: #b89a76;
+            opacity: 0.7;
+            line-height: 1.8;
+            font-family: "KaiTi", "楷体", serif;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+        .detail-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 25px;
+            background: #f5e9d3;
+            border: 3px solid #8B5A2B;
+            border-radius: 8px;
+            width: 450px;
+            z-index: 100;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+        .detail-modal h2 {
+            font-size: 22px;
+            color: #2D1C12;
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #b89a76;
+        }
+        .detail-modal p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #3D2B1F;
+            margin-bottom: 12px;
+        }
+        .detail-modal button {
+            display: block;
+            margin: 0 auto;
+            padding: 6px 20px;
+            background: linear-gradient(180deg, #966f4a 0%, #7a5637 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+            cursor: pointer;
+        }
+        .link-highlight {
+            stroke: #dc2626 !important;
+            stroke-width: 3px !important;
+            stroke-opacity: 1 !important;
+        }
+        .node-highlight {
+            fill: #dc2626 !important;
+            stroke: #fff !important;
+            stroke-width: 3px !important;
+            r: 22 !important;
+        }
+        .relation-text {
+            pointer-events: none;
+            text-shadow: 0 0 2px rgba(245,233,211,0.8);
+        }
+        /* 提示文字：告知用户单击看详情 */
+        .tip-text {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: #5A3E2B;
+            background: rgba(255,253,248,0.7);
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid #b89a76;
+        }
+        /* 新增：可见的连线样式 */
+        .link-visual {
+            stroke: #b89a76;
+            stroke-width: 2px;
+            stroke-opacity: 0.8;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="corner-tl"></div>
+        <div class="corner-tr"></div>
+        <div class="corner-bl"></div>
+        <div class="corner-br"></div>
+
+        <h1>姚鼐与桐城派数字传记</h1>
+
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="life.html">生平</a>
+            <a href="relation.html" class="active">师承</a>
+            <a href="conclusion.html">结论</a>
+        </nav>
+
+        <div class="page">
+            <div class="page-title">桐城派师承关系图谱</div>
+            <div id="graph-container"></div>
+            <div class="tip-text">📌 单击人物节点查看详细生平 | 点击连线显示关系</div>
+        </div>
+
+        <div class="guide-panel">
+            <h3>桐城派关系图谱操作</h3>
+            <p>核心人物：姚鼐、梅曾亮、管同、方东树、刘开</p>
+            <ul>
+                <li>三层切换：点击【姚鼐】节点</li>
+                <li>点任意弟子：显示【全部关系】</li>
+                <li>单击人物：查看详细生平</li>
+                <li>点击连线：显示红色关系文字</li>
+                <li>连线红色文字：师承/教授/交游/论学</li>
+            </ul>
+        </div>
+
+        <div class="watermark">
+            桐城三祖 方刘姚<br>
+            姚门四杰 振文统<br>
+            义法相承 文脉绵延<br>
+            南北传扬 百年不衰
+        </div>
+    </div>
+
+    <script>
+        // 核心人物数据
+        const baseNodes = [
+            { id: "姚鼐", name: "姚鼐", type: "核心", desc: "清代桐城派集大成者，字姬传号惜抱轩，倡义理、考据、辞章合一，主讲钟山书院四十余载，编定《古文辞类纂》。" },
+            { id: "梅曾亮", name: "梅曾亮", type: "弟子", desc: "姚门四杰之一，道光年间京师古文盟主，光大桐城文风，使桐城派成为清代中后期文坛主流。" },
+            { id: "管同", name: "管同", type: "弟子", desc: "姚门四杰之一，守桐城义法，文论笃实，文风严谨，为嘉道间古文健将，著有《因寄轩文集》。" },
+            { id: "方东树", name: "方东树", type: "弟子", desc: "姚门四杰之一，攻理学与文论，力卫程朱，辩驳汉学，著《汉学商兑》，为桐城派文论立心。" },
+            { id: "刘开", name: "刘开", type: "弟子", desc: "姚门弟子，工诗文，早逝而文名卓著，主张“文以载道”，承桐城派义法，著《孟涂文集》。" }
+        ];
+        // 完整三层数据（含始祖/再传弟子）
+        const fullNodes = [
+            ...baseNodes,
+            { id: "方苞", name: "方苞", type: "始祖", desc: "桐城派始祖，清代散文家、经学家，创义法说，文风雅洁，为桐城派奠基，著《望溪文集》《周官辨》等。" },
+            { id: "刘大櫆", name: "刘大櫆", type: "始祖", desc: "桐城三祖之一，姚鼐诗文恩师，精于古文神气音节，传桐城家法，文风雄逸，为姚鼐奠定文论基础。" },
+            { id: "梅曾亮弟子", name: "再传弟子", type: "再传", desc: "梅曾亮门下弟子，承桐城文风，将桐城派文论传至北方，成为晚清文坛重要支脉。" }
+        ];
+        // 基础连线
+        const baseLinks = [
+            { source: "姚鼐", target: "梅曾亮", relation: "教授" },
+            { source: "姚鼐", target: "管同", relation: "教授" },
+            { source: "姚鼐", target: "方东树", relation: "论学" },
+            { source: "姚鼐", target: "刘开", relation: "交游" },
+            { source: "梅曾亮", target: "管同", relation: "交游" },
+            { source: "方东树", target: "刘开", relation: "论学" }
+        ];
+        // 完整三层连线
+        const fullLinks = [
+            ...baseLinks,
+            { source: "方苞", target: "姚鼐", relation: "承法" },
+            { source: "刘大櫆", target: "姚鼐", relation: "师承" },
+            { source: "梅曾亮", target: "梅曾亮弟子", relation: "传承" }
+        ];
+
+        // 全局状态
+        let isFullMode = false;
+        let currentNodes = baseNodes;
+        let currentLinks = baseLinks;
+        let linkVisual, linkHotzone, node, nodeText;
+
+        // 初始化画布
+        const width = document.getElementById('graph-container').clientWidth;
+        const height = 500;
+        const svg = d3.select("#graph-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("style", "width:100%;height:100%;");
+
+        // 初始化图谱
+        initGraph();
+
+        function initGraph() {
+            // 清空画布
+            svg.selectAll("*").remove();
+            
+            // 力导向图
+           // 找到这段代码，替换成下面的参数
+const simulation = d3.forceSimulation(currentNodes)
+    .force("link", d3.forceLink(currentLinks).id(d => d.id).distance(120)) // 缩短连线距离，让节点更集中
+    .force("charge", d3.forceManyBody().strength(-400)) // 减小排斥力，避免节点过度分散
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force("collision", d3.forceCollide().radius(40)) // 增大碰撞半径，避免节点重叠
+    .alphaDecay(0.03) // 加快收敛速度，让布局更快稳定
+    .on("tick", ticked);
+            // 1. 绘制可见的连线（视觉层）
+            linkVisual = svg.append("g")
+                .selectAll(".link-visual")
+                .data(currentLinks)
+                .enter()
+                .append("line")
+                .attr("class", "link-visual")
+                .attr("stroke", "#b89a76")
+                .attr("stroke-width", 2)
+                .attr("stroke-opacity", 0.8);
+
+            // 2. 绘制连线点击热区（透明，扩大点击范围）
+            linkHotzone = svg.append("g")
+                .selectAll(".link-hotzone")
+                .data(currentLinks)
+                .enter()
+                .append("line")
+                .attr("class", "link-hotzone")
+                .attr("stroke", "#b89a76")
+                .attr("stroke-width", 8)
+                .attr("stroke-opacity", 0)
+                .on("click", function(event, d) {
+                    // 点击连线显示红色关系文字
+                    svg.selectAll(".relation-text").remove();
+                    svg.append("text")
+                        .attr("class", "relation-text")
+                        .data([d])
+                        .attr("x", (d.source.x + d.target.x) / 2)
+                        .attr("y", (d.source.y + d.target.y) / 2 - 10)
+                        .attr("text-anchor", "middle")
+                        .attr("font-size", 14)
+                        .attr("font-weight", 700)
+                        .attr("fill", "#dc2626")
+                        .text(d.relation);
+                });
+
+            // 3. 绘制节点
+            node = svg.append("g")
+                .selectAll("circle")
+                .data(currentNodes)
+                .enter()
+                .append("circle")
+                .attr("r", d => {
+                    if (d.type === "核心") return 20;
+                    if (d.type === "始祖" || d.type === "再传") return 19;
+                    return 18;
+                })
+                .attr("fill", d => {
+                    if (d.type === "核心") return "#8B5A2B";
+                    if (d.type === "始祖" || d.type === "再传") return "#966f4a";
+                    return "#b89a76";
+                })
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 2)
+                .call(d3.drag()
+                    .on("start", () => simulation.alphaTarget(0.3).restart())
+                    .on("drag", (e) => { e.subject.fx = e.x; e.subject.fy = e.y; })
+                    .on("end", () => simulation.alphaTarget(0))
+                )
+                .on("click", function(event, d) {
+                    event.stopPropagation();
+                    // 姚鼐节点：切换三层/核心层
+                    if (d.id === "姚鼐") {
+                        toggleFullMode();
+                    } 
+                    // 弟子节点：高亮关系 + 弹窗详情
+                    else if (d.type === "弟子" || d.type === "始祖" || d.type === "再传") {
+                        highlightRelations(d); // 高亮关系
+                        showPersonDetail(d);   // 弹窗详情
+                    }
+                    // 仅弹窗详情（核心节点非切换时）
+                    else {
+                        showPersonDetail(d);
+                    }
+                });
+
+            // 4. 绘制节点文字
+            nodeText = svg.append("g")
+                .selectAll("text")
+                .data(currentNodes)
+                .enter()
+                .append("text")
+                .attr("dy", -25)
+                .attr("text-anchor", "middle")
+                .attr("font-size", 16)
+                .attr("fill", "#2D1C12")
+                .text(d => d.name);
+        }
+
+        // 更新图谱位置
+        function ticked() {
+            linkVisual
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+            linkHotzone
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+            node
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y);
+            nodeText
+                .attr("x", d => d.x)
+                .attr("y", d => d.y);
+            svg.selectAll(".relation-text")
+                .attr("x", d => (d.source.x + d.target.x) / 2)
+                .attr("y", (d.source.y + d.target.y) / 2 - 10);
+        }
+
+        // 切换三层/核心层
+        function toggleFullMode() {
+            isFullMode = !isFullMode;
+            currentNodes = isFullMode ? fullNodes : baseNodes;
+            currentLinks = isFullMode ? fullLinks : baseLinks;
+            initGraph();
+            
+            // 提示弹窗
+            const tip = document.createElement("div");
+            tip.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:10px 20px;background:#8B5A2B;color:#f5e9d3;border-radius:6px;z-index:999;font-size:16px;";
+            tip.innerText = isFullMode ? "已切换为【完整三层图谱】" : "已切回【核心层图谱】";
+            document.body.appendChild(tip);
+            setTimeout(() => document.body.removeChild(tip), 1500);
+        }
+
+        // 高亮弟子全部关系
+        function highlightRelations(person) {
+            // 重置样式
+            linkVisual.attr("stroke", "#b89a76").attr("stroke-width", 2).attr("stroke-opacity", 0.8);
+            node.attr("fill", d => {
+                if (d.type === "核心") return "#8B5A2B";
+                if (d.type === "始祖" || d.type === "再传") return "#966f4a";
+                return "#b89a76";
+            }).attr("r", d => {
+                if (d.type === "核心") return 20;
+                if (d.type === "始祖" || d.type === "再传") return 19;
+                return 18;
+            });
+
+            // 高亮当前人物
+            node.filter(d => d.id === person.id)
+                .attr("fill", "#dc2626")
+                .attr("r", 22)
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 3);
+
+            // 高亮关联连线
+            linkVisual.filter(d => d.source.id === person.id || d.target.id === person.id)
+                .attr("stroke", "#dc2626")
+                .attr("stroke-width", 3)
+                .attr("stroke-opacity", 1);
+
+            // 显示关联关系文字
+            linkVisual.filter(d => d.source.id === person.id || d.target.id === person.id)
+                .each(function(d) {
+                    svg.selectAll(".relation-text").remove();
+                    svg.append("text")
+                        .attr("class", "relation-text")
+                        .data([d])
+                        .attr("x", (d.source.x + d.target.x) / 2)
+                        .attr("y", (d.source.y + d.target.y) / 2 - 10)
+                        .attr("text-anchor", "middle")
+                        .attr("font-size", 14)
+                        .attr("font-weight", 700)
+                        .attr("fill", "#dc2626")
+                        .text(d.relation);
+                });
+        }
+
+        // 单击弹出人物详情（100%触发）
+        function showPersonDetail(person) {
+            // 避免重复创建弹窗
+            if (document.querySelector(".mask")) return;
+            
+            // 创建遮罩层
+            const mask = document.createElement("div");
+            mask.className = "mask";
+            mask.onclick = () => {
+                document.body.removeChild(mask);
+                document.body.removeChild(modal);
+            };
+            document.body.appendChild(mask);
+            
+            // 创建详情弹窗
+            const modal = document.createElement("div");
+            modal.className = "detail-modal";
+            modal.innerHTML = `
+                <h2>${person.name}</h2>
+                <p><strong>身份：</strong>${
+                    person.type === "核心" ? "桐城派集大成者" : 
+                    person.type === "始祖" ? "桐城派始祖/桐城三祖" : 
+                    person.type === "再传" ? "桐城派再传弟子" : "姚门四杰/姚鼐核心弟子"
+                }</p>
+                <p><strong>人物简介：</strong>${person.desc}</p>
+                <button id="close-modal">关闭</button>
+            `;
+            document.body.appendChild(modal);
+            
+            // 关闭按钮事件
+            document.getElementById("close-modal").onclick = () => {
+                document.body.removeChild(mask);
+                document.body.removeChild(modal);
+            };
+        }
+    </script>
+</body>
+</html>

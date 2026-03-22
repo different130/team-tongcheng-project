@@ -1,3 +1,4 @@
+</div>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -69,25 +70,25 @@
             font-weight: 600;
             box-shadow: 0 2px 3px rgba(0,0,0,0.2);
         }
-        nav a[href="index.html"] {
+        nav a.active {
             background: linear-gradient(180deg, #b0885a 0%, #966f4a 100%);
         }
         nav a:hover {
             opacity: 0.9;
         }
-        /* 🔥 子标题：进一步放大 */
-        .narrative-title {
+        /* 页面子标题：放大到28px，展示更醒目 */
+        .page-title {
             font-size: 28px;
             color: #2D1C12;
             margin-bottom: 20px;
             font-weight: 700;
             letter-spacing: 1px;
         }
-        /* 🔥 正文：大幅放大，展示更清晰 */
-        .narrative-content {
+        /* 正文内容：放大到20px，行高2.0，投影展示清晰可读 */
+        .page-content {
             text-indent: 2em;
-            font-size: 20px; /* 从17px放大到20px */
-            line-height: 2.0; /* 行高同步放大，避免拥挤 */
+            font-size: 20px;
+            line-height: 2.0;
             color: #3D2B1F;
             font-weight: 500;
         }
@@ -117,20 +118,29 @@
         <h1>姚鼐与桐城派数字传记</h1>
 
         <nav>
-            <a href="index.html">首页</a>
+            <a href="index.html" class="active">首页</a>
             <a href="life.html">生平</a>
             <a href="relation.html">师承</a>
             <a href="conclusion.html">结论</a>
         </nav>
 
-        <div class="narrative">
-            <div class="narrative-title">姚鼐辞官归里：学术转向与文道新生</div>
-            <div class="narrative-content">
-                乾隆三十九年（1774），四十四岁的姚鼐在四库全书馆毅然辞官。彼时馆内汉学如日中天，以戴震、纪昀为代表的学风，崇尚考据，对宋儒义理颇多微词，视空谈心性为迂阔。姚鼐独守宋学根基，力倡义理、考据、辞章三者合一，在汉宋之争中势单力孤，学术主张难以施展。
-                <br><br>
-                他“以疾乞归”，托言“养亲”，实则早已厌倦官场桎梏与学术门户之见。少年立志治学、中年求仕碰壁的经历，让他深知仕途非其所愿；四库馆内的论辩与孤立，更让他决意远离尘嚣，归乡潜心文道。这一年秋十月，姚鼐请假解官后，并未立即南归，而是于冬十二月从京师专程前往山东泰安，冒风雪登泰山，以清冷笔墨写山河壮阔，将仕途失意沉淀为文人风骨。次年（1775）春正月，他自泰安返京，与四库馆同僚道别后正式南归。
-                <br><br>
-                归乡后的姚鼐，绝意仕进，主讲梅花、钟山等书院四十余载。他以授徒著述为业，熔铸毕生所学，系统阐发桐城文论，以笔为旗接续文统。这场看似无奈的辞官，终成清代学术与文学的关键转折——姚鼐离开官场与学派纷争的中心，在山水笔墨与杏坛讲学之间，为桐城派开辟了兴盛之路，也为中国古文留下了一脉清隽深远的文心。
+        <div class="page">
+            <div class="page-title">【当前页面标题】</div>
+            <div class="page-content">
+                <nav>
+    <a href="index.html">首页</a>
+    <a href="life.html">生平</a>
+    <a href="relation.html">师承</a>
+    <a href="conclusion.html" class="active">结论</a>
+</nav>
+
+<div class="page">
+    <div class="page-title">文统影响与学术价值</div>
+    <div class="page-content">
+        姚鼐的辞官与治学，是清代学术转向的关键节点：他离开官场纷争，以书院为阵地，将桐城派古文理论系统化，为中国古文留下了“文以载道”的精神脉络。<br><br>
+        其《古文辞类纂》确立了古文选本的典范，“义理、考据、辞章”三合一的主张，深刻影响了近代文学思潮，也为当代人文研究提供了重要的思想资源。
+    </div>
+
             </div>
         </div>
 
