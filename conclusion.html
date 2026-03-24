@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结论 - 姚鼐与桐城派数字传记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* 全局：仿旧纸张底色 */
+        body {
+            padding: 20px;
+            background-color: #f7f1e3;
+            font-family: "SimSun", "宋体", "Microsoft Yahei", serif;
+            color: #3D2B1F;
+        }
+        /* 卷轴外框：四角装饰+双层边框 */
+        .scroll-container {
+            position: relative;
+            width: 100%;
+            min-height: 90vh;
+            padding: 30px;
+            background-color: #f5e9d3;
+            border: 2px solid #b89a76;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        /* 四角装饰：纯CSS实现回纹 */
+        .scroll-container .corner-tl,
+        .scroll-container .corner-tr,
+        .scroll-container .corner-bl,
+        .scroll-container .corner-br {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #b89a76;
+        }
+        .scroll-container .corner-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: 6px 0 0 0; }
+        .scroll-container .corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 6px 0 0; }
+        .scroll-container .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 6px; }
+        .scroll-container .corner-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 6px 0; }
+
+        /* 主标题：书法感 */
+        h1 {
+            font-size: 38px;
+            color: #2D1C12;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+        /* 导航栏：圆角木质按钮 */
+        nav {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #b89a76;
+        }
+        nav a {
+            display: inline-block;
+            padding: 6px 18px;
+            margin-right: 8px;
+            background: linear-gradient(180deg, #966f4a 0%, #7a5637 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        nav a[href="conclusion.html"] {
+            background: linear-gradient(180deg, #b0885a 0%, #966f4a 100%);
+        }
+        nav a:hover {
+            opacity: 0.9;
+        }
+        /* 子标题 */
+        .narrative-title {
+            font-size: 28px;
+            color: #2D1C12;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        /* 正文 */
+        .narrative-content {
+            text-indent: 2em;
+            font-size: 20px;
+            line-height: 2.0;
+            color: #3D2B1F;
+            font-weight: 500;
+            margin-bottom: 18px;
+        }
+        /* 右侧竖排小字水印（模拟古籍批注） */
+        .watermark {
+            position: absolute;
+            right: 30px;
+            top: 80px;
+            bottom: 80px;
+            writing-mode: vertical-rl;
+            font-size: 12px;
+            color: #b89a76;
+            opacity: 0.6;
+            line-height: 1.8;
+            font-family: "KaiTi", "楷体", serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <!-- 四角装饰 -->
+        <div class="corner-tl"></div>
+        <div class="corner-tr"></div>
+        <div class="corner-bl"></div>
+        <div class="corner-br"></div>
+
+        <h1>姚鼐与桐城派数字传记</h1>
+
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="life.html">生平</a>
+            <a href="relation.html">师承</a>
+            <a href="conclusion.html">结论</a>
+        </nav>
+
+        <div class="narrative-title">总结与展望</div>
+
+        <div class="narrative-content">
+            桐城派文脉绵延二百余载，历经岁月更迭依旧薪火不绝，根源便在于秉持因时损益、兼容并蓄的治学行文之道：既守文脉根脉、不失先贤风骨，又纳时代新意、于变通中永葆生机。
+        </div>
+        <div class="narrative-content">
+            这为传统文化传承点亮了启示：真正的传承，绝非泥古守旧的刻板复刻，而是转新活化的智慧赓续。唯有扎根文脉、守住内核，融入时代精神，方能让古典智慧跨越时空，生生不息、历久弥香。
+        </div>
+        <div class="narrative-content">
+            本次数字人文实践，正是以现代技术为桥梁，对桐城派文脉进行活化探索。我们通过数字化整理、可视化呈现与网络化传播，让厚重的文献走向大众，让经典思想可触可感，既守护了传统文化的精神内核，也为古典文脉注入新时代的表达形式与传播活力。
+        </div>
+        <div class="narrative-content">
+            这不仅是对学术资源的整理与呈现，更是我们以青年视角、数字方式致敬先贤、传承文脉的一次真实努力。愿以微末之力，续文脉之光，让桐城派的智慧在数字时代继续被看见、被理解、被传承。
+        </div>
+
+        <div class="watermark">桐城派 · 姚鼐 · 文脉传承</div>
+    </div>
+</body>
+</html>
