@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姚鼐与桐城派数字传记 - 师承</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            padding: 20px;
+            background-color: #f7f1e3;
+            font-family: "SimSun", "宋体", "Microsoft Yahei", serif;
+            color: #3D2B1F;
+        }
+        .scroll-container {
+            position: relative;
+            width: 100%;
+            min-height: 90vh;
+            padding: 30px 40px;
+            background-color: #f5e9d3;
+            border: 2px solid #b89a76;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .corner-tl, .corner-tr, .corner-bl, .corner-br {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #b89a76;
+        }
+        .corner-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: 6px 0 0 0; }
+        .corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 6px 0 0; }
+        .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 6px; }
+        .corner-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 6px 0; }
+        h1 {
+            font-size: 32px;
+            color: #2D1C12;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #b89a76;
+        }
+        nav {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #b89a76;
+            text-align: center;
+        }
+        nav a {
+            display: inline-block;
+            padding: 6px 18px;
+            margin: 0 8px;
+            background: linear-gradient(180deg, #966f4a 0%, #7a5637 100%);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+        nav a.active {
+            background: linear-gradient(180deg, #b0885a 0%, #966f4a 100%);
+            transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .page-title {
+            font-size: 24px;
+            color: #2D1C12;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        #graph-container {
+            width: 100%;
+            height: 680px;
+            border: 2px solid #b89a76;
+            border-radius: 6px;
+            background: #fffaf0 !important;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .layer-box {
+            position: absolute;
+            border: 2px solid #b89a76;
+            background: transparent;
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .layer-label {
+            position: absolute;
+            top: -13px;
+            left: 15px;
+            background: #f5e9d3;
+            padding: 2px 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #8B5A2B;
+            border: 1px solid #b89a76;
+            border-radius: 4px;
+        }
+        .guide-panel {
+            position: absolute;
+            top: 160px;
+            left: 40px;
+            width: 260px;
+            padding: 15px;
+            background: rgba(255,253,248,0.95);
+            border: 2px solid #b89a76;
+            border-radius: 6px;
+            font-size: 16px;
+            line-height: 1.8;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .guide-panel h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #2D1C12;
+            text-align: center;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #b89a76;
+        }
+        .guide-panel ul {
+            margin-left: 18px;
+            margin-top: 8px;
+        }
+        .watermark {
+            position: absolute;
+            right: 25px;
+            top: 80px;
+            bottom: 80px;
+            writing-mode: vertical-rl;
+            font-size: 12px;
+            color: #b89a76;
+            opacity: 0.7;
+            line-height: 1.8;
+            font-family: "KaiTi", "楷体", serif;
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+        .detail-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 25px;
+            background: #f5e9d3;
+            border: 3px solid #8B5A2B;
+            border-radius: 8px;
+            width: 520px;
+            z-index: 100;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+        .detail-modal h2 {
+            font-size: 22px;
+            color: #2D1C12;
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #b89a76;
+        }
+        .detail-modal p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #3D2B1F;
+            margin-bottom: 12px;
+        }
+        .detail-modal .golden-sentence {
+            background: rgba(255,248,230,0.6);
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 3px solid #8B5A2B;
+            font-style: italic;
+        }
+        .detail-modal button {
+            display: block;
+            margin: 0 auto;
+            padding: 6px 20px;
+            background: linear-gradient(180deg, #966f4a 0%, #7a5637 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 99;
+            cursor: pointer;
+        }
+        .link-highlight {
+            stroke: #dc2626 !important;
+            stroke-width: 3px !important;
+            stroke-opacity: 1 !important;
+        }
+        .node-highlight {
+            fill: #dc2626 !important;
+            stroke: #fff !important;
+            stroke-width: 3px !important;
+            r: 22 !important;
+        }
+        .relation-text {
+            pointer-events: none;
+            text-shadow: 0 0 3px #fff;
+            font-weight: bold;
+        }
+        .tip-text {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: #5A3E2B;
+            background: rgba(255,253,248,0.7);
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid #b89a76;
+        }
+        .link-visual {
+            stroke: #b89a76;
+            stroke-width: 2px;
+            stroke-opacity: 0.8;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="corner-tl"></div>
+        <div class="corner-tr"></div>
+        <div class="corner-bl"></div>
+        <div class="corner-br"></div>
+
+        <h1>姚鼐与桐城派数字传记</h1>
+
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="life.html">生平</a>
+            <a href="relation.html" class="active">师承</a>
+            <a href="conclusion.html">结论</a>
+        </nav>
+
+        <div class="page">
+            <div class="page-title">桐城派师承关系图谱</div>
+            <div id="graph-container"></div>
+            <div class="tip-text">📌 单击人物节点查看详细生平 | 点击连线显示关系</div>
+        </div>
+
+        <div class="guide-panel">
+            <h3>桐城派关系图谱操作</h3>
+            <p>核心人物：姚鼐（桐城派集大成者）</p>
+            <ul>
+                <li>完整图谱：点击【姚鼐】节点切换全部15人</li>
+                <li>点任意人物：高亮关联关系+弹窗详情</li>
+                <li>单击人物：查看生平+代表金句</li>
+                <li>点击连线：显示红色关系标签</li>
+                <li>分层展示：始祖→核心→弟子→再传</li>
+            </ul>
+        </div>
+
+        <div class="watermark">
+            桐城三祖 方刘姚<br>
+            姚门四杰 振文统<br>
+            义法相承 文脉绵延<br>
+            南北传扬 百年不衰
+        </div>
+    </div>
+
+    <script>
+        const baseNodes = [
+            { id: "姚鼐", name: "姚鼐", type: "核心", layer: 2, desc: "清代桐城派集大成者，字姬传，号惜抱轩。1731年生于安徽桐城，32岁中进士入仕，44岁辞官讲学四十余载，倡义理、考据、辞章三者合一，编定《古文辞类纂》。", goldenSentence: "学问之事，义理、考据、辞章，三者不可偏废。——《复秦小岘书》" },
+            { id: "梅曾亮", name: "梅曾亮", type: "弟子", layer: 3, desc: "姚门四杰之一，道光年间京师古文盟主。光大桐城文风，使桐城派成为清代中后期文坛主流，联结南北文脉。", goldenSentence: "文以载道，言以足志。——《柏枧山房文集》" },
+            { id: "管同", name: "管同", type: "弟子", layer: 3, desc: "姚门四杰之一，守桐城义法，文论笃实，文风严谨。嘉道间古文健将，著有《因寄轩文集》，坚守桐城派核心主张。", goldenSentence: "为文必本于经，辅之以史，而后不为空言。——《因寄轩文集》" },
+            { id: "方东树", name: "方东树", type: "弟子", layer: 3, desc: "姚门四杰之一，攻理学与文论，力卫程朱，辩驳汉学。著《汉学商兑》，为桐城派文论立心，捍卫宋学义理根基。", goldenSentence: "义理为干，考据为枝，辞章为叶。——《汉学商兑》" },
+            { id: "姚莹", name: "姚莹", type: "弟子", layer: 3, desc: "姚门四杰之一，姚鼐侄孙+弟子。留心边疆舆地，经世致用，官至台湾道，守土有功，将桐城派经世思想付诸实践。", goldenSentence: "文者，所以载道也，非徒饰词而已。——《东溟文集》" }
+        ];
+
+        const fullNodes = [
+            ...baseNodes,
+            { id: "方苞", name: "方苞", type: "始祖", layer: 1, desc: "桐城派始祖，桐城三祖之首。创义法说，文风雅洁，为桐城派奠基。", goldenSentence: "义即《易》之所谓“言有物”也，法即《易》之所谓“言有序”也。" },
+            { id: "刘大櫆", name: "刘大櫆", type: "恩师", layer: 1, desc: "桐城三祖之一，姚鼐诗文恩师。精于古文神气音节，传桐城家法。", goldenSentence: "文者，神为主，气辅之。" },
+            { id: "姚范", name: "姚范", type: "恩师", layer: 1, desc: "姚鼐伯父+老师，乾嘉经学家。授姚鼐经学诗文，治学严谨。", goldenSentence: "学贵精不贵博，然未有不博而能精者也。" },
+            { id: "方泽", name: "方泽", type: "恩师", layer: 1, desc: "姚鼐早年老师，江南名儒。引导姚鼐走上义理+古文治学路径。", goldenSentence: "为学当以程朱为宗，博文约礼，知行合一。" },
+            { id: "姚文然", name: "姚文然", type: "家族", layer: 1, desc: "姚鼐先祖，清初刑部尚书。为官清正，通经术，树立清廉治学家风。", goldenSentence: "居官当廉以自守，学道当诚以待人。" },
+            { id: "姚淑", name: "姚淑", type: "家族", layer: 1, desc: "姚鼐父亲，布衣儒生。以清德教诫姚鼐，铸造其淡泊治学品格。", goldenSentence: "读书在明理，修身在慎独。" },
+            { id: "纪昀", name: "纪昀", type: "同僚", layer: 2, desc: "《四库全书》总纂，姚鼐四库馆同僚。学识淹通，主持馆务。", goldenSentence: "学问无穷，人生有限，当以有限追无穷。" },
+            { id: "戴震", name: "戴震", type: "同僚", layer: 2, desc: "乾嘉考据学巨擘，姚鼐四库馆同事。精训诂名物，崇尚汉学考据。", goldenSentence: "理者，存乎欲者也。" },
+            { id: "朱孝纯", name: "朱孝纯", type: "挚友", layer: 2, desc: "姚鼐挚友，两淮盐运使。延请姚鼐主讲，提供重要讲学平台。", goldenSentence: "友者，志同道合，以文会友，以道相交。" },
+            { id: "刘开", name: "刘开", type: "弟子", layer: 3, desc: "姚门弟子，工诗文，早逝而文名卓著。承桐城派义法，文风俊逸。", goldenSentence: "文无定格，惟求其是而已。" },
+            { id: "陈用光", name: "陈用光", type: "弟子", layer: 3, desc: "姚鼐弟子，官至礼部侍郎。笃守师说，在北方传扬桐城派。", goldenSentence: "师说不可不守，亦不可泥守，当知变通而明其本。" },
+            { id: "吴德旋", name: "吴德旋", type: "弟子", layer: 3, desc: "私淑姚鼐，工古文。以桐城教法教授岭南学子，开南方文运。", goldenSentence: "桐城之文，清澄雅洁，得天地之正气。" },
+            { id: "梅曾亮弟子", name: "再传弟子", type: "再传", layer: 4, desc: "梅曾亮门下弟子，承桐城文风。将桐城派文论传至北方各地。", goldenSentence: "承师之学，传文之道，薪火相传，文脉不息。" }
+        ];
+
+        const baseLinks = [
+            { source: "姚鼐", target: "梅曾亮", relation: "教授" },
+            { source: "姚鼐", target: "管同", relation: "教授" },
+            { source: "姚鼐", target: "方东树", relation: "论学" },
+            { source: "姚鼐", target: "姚莹", relation: "教授" },
+            { source: "梅曾亮", target: "管同", relation: "交游" },
+            { source: "方东树", target: "姚莹", relation: "论学" }
+        ];
+
+        const fullLinks = [
+            ...baseLinks,
+            { source: "方苞", target: "姚鼐", relation: "承法" },
+            { source: "刘大櫆", target: "姚鼐", relation: "师承" },
+            { source: "姚范", target: "姚鼐", relation: "师承" },
+            { source: "方泽", target: "姚鼐", relation: "师承" },
+            { source: "姚文然", target: "姚鼐", relation: "家学" },
+            { source: "姚淑", target: "姚鼐", relation: "家训" },
+            { source: "纪昀", target: "姚鼐", relation: "共事" },
+            { source: "戴震", target: "姚鼐", relation: "论辩" },
+            { source: "朱孝纯", target: "姚鼐", relation: "挚友" },
+            { source: "姚鼐", target: "刘开", relation: "交游" },
+            { source: "姚鼐", target: "陈用光", relation: "教授" },
+            { source: "姚鼐", target: "吴德旋", relation: "私淑" },
+            { source: "梅曾亮", target: "梅曾亮弟子", relation: "传承" },
+            { source: "陈用光", target: "吴德旋", relation: "交游" },
+            { source: "刘开", target: "管同", relation: "论学" }
+        ];
+
+        let isFullMode = false;
+        let currentNodes = baseNodes;
+        let currentLinks = baseLinks;
+        let linkVisual, linkHotzone, node, nodeText;
+        const width = document.getElementById('graph-container').clientWidth;
+        const height = 680;
+        const svg = d3.select("#graph-container").append("svg").attr("width", width).attr("height", height);
+
+        initGraph();
+
+        function initGraph() {
+            svg.selectAll("*").remove();
+           
+            const simulation = d3.forceSimulation(currentNodes)
+                .force("link", d3.forceLink(currentLinks).id(d => d.id).distance(120))
+                .force("charge", d3.forceManyBody().strength(-800))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("y", d3.forceY(d => getLayerY(d.layer)).strength(0.8))
+                .force("collision", d3.forceCollide().radius(50))
+                .alpha(1).alphaDecay(0.05)
+                .on("tick", ticked);
+
+            linkVisual = svg.append("g").selectAll(".link-visual").data(currentLinks).enter().append("line").attr("class", "link-visual");
+            linkHotzone = svg.append("g").selectAll(".link-hotzone").data(currentLinks).enter().append("line")
+                .attr("stroke-width", 10).attr("stroke-opacity", 0)
+                .on("click", (e, d) => showRelationText(d));
+
+            node = svg.append("g").selectAll("circle").data(currentNodes).enter().append("circle")
+                .attr("r", d => d.type==="核心"?22:18)
+                .attr("fill", getNodeColor)
+                .attr("stroke", "#fff").attr("stroke-width", 2)
+                .call(d3.drag().on("start", dragstart).on("drag", drag).on("end", dragend))
+                .on("click", (e, d) => d.id==="姚鼐"?toggleFullMode():(highlightRelations(d),showPersonDetail(d)));
+
+            nodeText = svg.append("g").selectAll("text").data(currentNodes).enter().append("text")
+                .attr("dy", -25).attr("text-anchor", "middle")
+                .attr("font-size", 16)
+                .attr("fill", "#2D1C12")
+                .attr("stroke", "#ffffff")
+                .attr("stroke-width", "2")
+                .attr("paint-order", "stroke")
+                .text(d=>d.name);
+        }
+
+        function getLayerY(layer){
+            const map = {1:150, 2:320, 3:480, 4:600};
+            return map[layer] || 300;
+        }
+
+        function drawLayerBoxes(){
+            if(!isFullMode) return;
+            const layers = [
+                {y:100, h:120, title:"第一层：桐城派始祖 & 恩师"},
+                {y:270, h:120, title:"第二层：核心人物 & 同僚"},
+                {y:430, h:120, title:"第三层：姚门弟子 & 传人"},
+                {y:550, h:80, title:"第四层：再传弟子"}
+            ];
+            layers.forEach(l=>{
+                const box = svg.append("g").attr("class","layer-box");
+                box.append("rect").attr("x",80).attr("y",l.y).attr("width",width-160).attr("height",l.h).attr("rx",6);
+                box.append("text").attr("class","layer-label").text(l.title);
+            });
+        }
+
+        function ticked() {
+            linkVisual.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
+            linkHotzone.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
+            node.attr("cx",d=>d.x).attr("cy",d=>d.y);
+            nodeText.attr("x",d=>d.x).attr("y",d=>d.y);
+        }
+
+        function toggleFullMode() {
+            isFullMode = !isFullMode;
+            currentNodes = isFullMode ? fullNodes : baseNodes;
+            currentLinks = isFullMode ? fullLinks : baseLinks;
+            initGraph();
+            const tip = document.createElement("div");
+            tip.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:10px 20px;background:#8B5A2B;color:#fff;border-radius:6px;z-index:999;";
+            tip.innerText = isFullMode ? "✅ 已切换完整四层图谱" : "✅ 已切回核心图谱";
+            document.body.appendChild(tip);
+            setTimeout(()=>tip.remove(),1500);
+        }
+
+        function getNodeColor(d){
+            const colors = {核心:"#8B5A2B",始祖:"#966f4a",恩师:"#a67c52",弟子:"#b89a76",同僚:"#c2a680",挚友:"#caaf8c",家族:"#d4b998",再传:"#deb3a0"};
+            return colors[d.type] || "#b89a76";
+        }
+
+        function highlightRelations(person) {
+            linkVisual.attr("stroke","#b89a76").attr("stroke-width",2);
+            node.attr("fill",getNodeColor).attr("r",d=>d.type==="核心"?22:18);
+            
+            node.filter(d=>d.id===person.id).attr("fill","#dc2626").attr("r",24).attr("stroke-width",3);
+            linkVisual.filter(d=>d.source.id===person.id||d.target.id===person.id)
+                .attr("stroke","#dc2626").attr("stroke-width",3);
+        }
+
+        function showRelationText(d){
+            svg.selectAll(".relation-text").remove();
+            svg.append("text").attr("class","relation-text")
+                .attr("x",(d.source.x+d.target.x)/2).attr("y",(d.source.y+d.target.y)/2-10)
+                .attr("text-anchor","middle").attr("font-size",14).attr("fill","#dc2626")
+                .text(d.relation);
+        }
+
+        function dragstart(e){d3.select(this).attr("stroke","#dc2626");}
+        function drag(e){e.subject.fx=e.x;e.subject.fy=e.y;}
+        function dragend(e){d3.select(this).attr("stroke","#fff");}
+
+        function showPersonDetail(person) {
+            if(document.querySelector(".mask")) return;
+            const mask = document.createElement("div");
+            mask.className = "mask";
+            const modal = document.createElement("div");
+            modal.className = "detail-modal";
+            const idMap = {核心:"桐城派集大成者",始祖:"桐城派始祖",恩师:"姚鼐学术导师",弟子:"姚门嫡传弟子",同僚:"四库馆同僚",挚友:"讲学挚友",家族:"姚氏家风传承",再传:"桐城派再传弟子"};
+            
+            modal.innerHTML = `<h2>${person.name}</h2><p><strong>身份：</strong>${idMap[person.type]}</p><p><strong>简介：</strong>${person.desc}</p><p><strong>金句：</strong></p><p class="golden-sentence">${person.goldenSentence}</p><button>关闭</button>`;
+            document.body.append(mask,modal);
+            mask.onclick = modal.querySelector("button").onclick = ()=>{mask.remove();modal.remove();};
+        }
+    </script>
+</body>
+</html>
