@@ -1,0 +1,451 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>师承文脉 · 姚鼐先生数字生平图传</title>
+<link rel="stylesheet" href="css/scroll-theme.css">
+<style>
+  body.desk-site { overflow-x: hidden; }
+  .relation-board.scroll-container {
+    max-width: min(1680px, calc(100vw - 8px));
+    min-height: calc(100vh - 28px);
+    padding: 14px calc(10px + var(--scroll-roller-space, 26px)) 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .relation-board .scroll-body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+  }
+  .relation-split {
+    display: flex;
+    flex: 1 1 auto;
+    align-items: stretch;
+    min-height: 0;
+    gap: 0;
+    width: 100%;
+    position: relative;
+    z-index: 3;
+  }
+  #chart {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto !important;
+    min-height: 72vh;
+    height: auto;
+    z-index: 1;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  #right {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    width: 430px;
+    flex-shrink: 0;
+    height: auto;
+    max-height: none;
+    background: rgba(252, 248, 240, 0.96);
+    border-left: 2px solid #5c4032;
+    padding: 18px 16px 22px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    z-index: 12;
+  }
+  #right nav { position: relative; z-index: 13; }
+  #right nav a { position: relative; z-index: 14; }
+  #right::-webkit-scrollbar{width:6px}
+  #right::-webkit-scrollbar-thumb{background:#8d6e63;border-radius:3px}
+  #right::-webkit-scrollbar-track{background:#f0e6d8}
+  #right h2{text-align:center;color:#1a1008;margin-bottom:18px;font-weight:800;font-family:"KaiTi","STKaiti",serif;letter-spacing:0.12em;}
+  .search-box{position:relative;margin-bottom:16px}
+  #search{width:100%;padding:10px 14px;padding-right:40px;border:1px solid #5c4032;background:#fffdf8;border-radius:6px;font-family:"KaiTi";color:#2a1f14;font-size:15px;}
+  .search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#6d5340;width:18px;height:18px;pointer-events:none}
+  .search-icon svg{display:block;width:100%;height:100%}
+  .tip{background:rgba(255,252,244,.75);border:1px solid rgba(92,64,50,.35);padding:12px;border-radius:6px;margin-bottom:18px;color:#3d2b1f;line-height:1.75;font-size:15px;}
+  .section{margin-bottom:24px}
+  .section h3{font-size:17px;color:#1a1008;border-left:4px solid #7a4e32;padding-left:10px;margin-bottom:10px;font-weight:700;}
+  .section p{font-size:15px;line-height:1.85;color:#2a1f14;margin-bottom:8px;}
+  .quote{padding:10px;background:rgba(255,250,240,.9);border-left:3px solid #7a4e32;border-radius:6px;margin:10px 0;color:#2a1f14;}
+  .reference{margin-top:22px;padding-top:14px;border-top:1px solid rgba(92,64,50,.3);font-size:14px;line-height:1.8;color:#3d2b1f}
+  #modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:420px;background:#f5ebd8;border:2px solid #5c4032;padding:25px;display:none;z-index:9999;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+  #modal h4{color:#1a1008;margin-bottom:10px;font-size:18px;font-weight:700;}
+  #modal .desc{font-size:14px;line-height:1.7;color:#2a1f14;margin-bottom:10px;max-height:180px;overflow-y:auto;padding-right:5px;}
+  #modal .quote{color:#2a1f14;padding:10px;background:#faf4e8;border-radius:6px;}
+  #close{position:absolute;right:15px;top:12px;cursor:pointer;color:#6d5340;font-size:20px;}
+  #close:hover{color:#1a1008;}
+  .no-tip{color:#6d5340;text-align:center;padding:10px 0;display:none;}
+  #relationWrap{background:rgba(255,252,244,.85);border:1px solid rgba(92,64,50,.35);padding:14px;border-radius:6px;margin-bottom:18px;line-height:1.8;color:#2a1f14;}
+  #biography { content-visibility: auto; contain-intrinsic-size: 900px; }
+  @media (max-width: 960px) {
+    .relation-split { flex-direction: column; }
+    #chart { min-height: 46vh; width: 100% !important; }
+    #right { width: 100%; border-left: none; border-top: 2px solid #5c4032; max-height: 48vh; }
+  }
+</style>
+</head>
+<body class="desk-site">
+<div class="scroll-container relation-board scroll-wide">
+  <div class="scroll-roller scroll-roller--left" aria-hidden="true"></div>
+  <div class="scroll-roller scroll-roller--right" aria-hidden="true"></div>
+  <div class="scroll-body">
+  <div class="relation-split">
+<div id="chart"></div>
+<div id="right">
+  <nav aria-label="站点导航">
+    <a href="index.html">首页</a>
+    <a href="relation.html" class="active">师承</a>
+    <a href="life.html">生平轨迹</a>
+    <a href="life2.html">登泰山</a>
+    <a href="conclusion.html">结论</a>
+  </nav>
+  <h2>姚鼐·桐城派文脉图</h2>
+  <div class="search-box">
+    <input id="search" placeholder="输入人物名称搜索">
+    <span class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+  </div>
+  <div class="no-tip" id="noTip">未找到相关人物</div>
+  <div class="tip">单击姚鼐：层层展开图谱 | 双击人物：查看简介金句 | 搜索：显示该人物与姚鼐关系链</div>
+
+  <div id="relationWrap" style="display:none;"></div>
+
+  <div id="biography">
+    <div class="section"><h3>一、盛年辞官 · 故事主线</h3>
+    <p>44岁，他身着绯袍立于刑部官署，手中握着四库馆纂修官的朱笔，记名御史的紫绶在腰间轻晃——这是清代文人梦寐以求的双巅峰：左手是文渊阁校理群书的学术尊荣，右手是都察院监察百官的仕途坦途。</p>
+    <p>然而就在乾隆盛世的文治光环下，他却在雕梁画栋的文渊阁中写下辞呈，决然转身离去。</p>
+    <p>姚鼐为何要放弃这片锦绣前程？这惊世骇俗的抉择，是否正是撬动清代学术格局的关键一棋呢？</p></div>
+
+    <div class="section"><h3>辞官史实</h3>
+    <p>乾隆三十九年（1774年）秋：辞官获批</p>
+    <p>乾隆四十年（1775年）春：正式离京，时年44岁</p>
+    <p>任职：四库馆纂修官、记名御史（顶级学术+仕途双平台）</p></div>
+
+    <div class="section"><h3>破除误解：非失意，是主动选择</h3>
+    <p>以戴震为参照对比仕途、治学、馆内境遇，可见姚鼐条件更优，却主动退出。</p>
+    <p>辞官非无奈，而是清醒、自主、坚定的人生抉择。</p></div>
+
+    <div class="section"><h3>核心内因：坚守宋儒，不迎合汉学</h3>
+    <p>馆内汉学如日中天，姚鼐独守宋儒义理，与主流学风根本分歧。</p>
+    <p>不愿迎合时风、放弃文道坚守，是辞官核心动因。</p></div>
+
+    <div class="section"><h3>二、姚鼐辞官归里：学术转向与文道新生</h3>
+    <p>乾隆三十九年（1774年），四十三岁的姚鼐在四库全书馆毅然辞官。汉学盛行，姚鼐独守宋学根基，力倡义理、考据、辞章合一。</p>
+    <p>他托言养亲归乡，主讲梅花、钟山等书院四十余载，以授徒著述接续桐城文统。</p></div>
+
+    <div class="section"><h3>三、关键生平事件（附金句）</h3>
+    <p>1731｜生于安徽桐城，字姬传，号惜抱先生</p><div class="quote">学问之事，义理、考据、辞章，三者不可偏废。</div>
+    <p>1750｜19岁考中江南乡试举人</p><div class="quote">少年负志气，信道不从时。</div>
+    <p>1763｜32岁进士，入翰林院庶吉士</p><div class="quote">文者，天地之精英，而礼乐之心也。</div>
+    <p>1766｜任兵部、礼部主事</p><div class="quote">居官以勤慎为本，立身以廉介为先。</div>
+    <p>1770｜任山东、湖南乡试副考官</p><div class="quote">取士务得真才，衡文必归雅正。</div>
+    <p>1773｜入四库馆任纂修官</p><div class="quote">校书如扫落叶，随扫随生。</div>
+    <p>1774｜43岁因学术不合请假解官</p><div class="quote">此间尤无可恋，明年必归。</div>
+    <p>1775｜44岁离京归乡</p><div class="quote">自京师乘风雪，历齐河、长清，至于泰安。</div>
+    <p>1777起｜主讲书院近40年</p><div class="quote">师道立则善人多，斯文在而吾道不坠。</div>
+    <p>1779｜编定《古文辞类纂》</p><div class="quote">神理气味者文之精，格律声色者文之粗。</div>
+    <p>1810｜重赴鹿鸣宴，加授四品官</p><div class="quote">白首穷经，不负平生所学。</div>
+    <p>1815｜病逝钟山书院，年85</p><div class="quote">苍山负雪，明烛天南。</div></div>
+
+    <div class="reference"><h3>参考文献</h3>
+    <p>1. 鼐昔者尝欲读书著文，以自见于世，而困于衣食，奔走四方，今幸得归，闭门却扫，从事于斯。<br>——《复鲁絜非书》（清）姚鼐. 惜抱轩文集[M]. 上海古籍出版社,1992.</p>
+    <p>2.（鼐）以病乞归，主讲江南紫阳、钟山书院者四十余年，以诲迪后进为己任。<br>——《清史稿·姚鼐传》赵尔巽等. 中华书局,1977.</p>
+    <p>3. 先生以养亲乞归，遂不复出。<br>——《惜抱先生家传》，清同治五年省心阁刻本。</p></div>
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <footer class="site-credits" role="contentinfo">
+    <p class="site-credits-place">龙眠文脉千载 · 安徽桐城姚鼐数字生平图传</p>
+    <p class="site-credits-team">安庆师范大学人文学院 · 指导：王爽 · 开发：王晓琦 叶梦含 朱艳秀 · 数据：李颖乐 蔡瑶 朱艳秀 曹歌</p>
+  </footer>
+</div>
+
+<div id="modal"><span id="close">×</span><h4 id="m_title"></h4><div class="desc" id="m_desc"></div><div class="quote" id="m_quote"></div></div>
+
+<script src="js/echarts.min.js"></script>
+<script>
+(function () {
+function bootRelation() {
+const chart = echarts.init(document.getElementById('chart'), null, {
+  renderer: 'canvas',
+  useDirtyRect: false
+});
+const modal = document.getElementById('modal');
+const closeBtn = document.getElementById('close');
+const m_title = document.getElementById('m_title');
+const m_desc = document.getElementById('m_desc');
+const m_quote = document.getElementById('m_quote');
+const search = document.getElementById('search');
+const noTip = document.getElementById('noTip');
+const relationWrap = document.getElementById('relationWrap');
+const biography = document.getElementById('biography');
+
+let level = 0;
+let searchActive = false;
+let searchTarget = '';
+
+// 右侧详细文案（完全恢复原样）
+const relationData = {
+  "方苞": `文脉关系：桐城三祖之首 · 姚鼐间接师承、文脉源头<br><br>方苞为桐城派开山始祖，首创古文“义法”核心理论，确立“言有物、言有序”的创作准则，奠定桐城文派根基，与刘大櫆、姚鼐并称“桐城三祖”。姚鼐虽未直接受教于方苞，却终身承袭其文道正统。<br><br>在文脉传承上，姚鼐补齐方苞文论重章法、轻考据的短板，融合义理、考据、辞章三者为一体，完善桐城派学术体系。同时承袭方苞《古文约选》的选文理念，编撰《古文辞类纂》，系统规整历代古文范式，延续并升华桐城雅正文风，坚守儒家载道传统。`,
+  "刘大櫆": `文脉关系：直接恩师 · 桐城文脉承上启下关键人物<br><br>刘大櫆是姚鼐的亲授古文恩师、桐城三祖之一，承接方苞义法理论，深耕古文神气、音节、韵味，弥补方苞文法刻板的局限，是串联桐城初代、二代文脉的核心人物。<br><br>他向姚鼐传授古文“神气为先”的创作精髓，塑造了姚鼐的古文审美与创作根基。姚鼐博采众长，融合方苞义法、刘大櫆神韵与自身考据之学，最终完成桐城派文论的终极整合与体系完善，实现文脉迭代升级。`,
+  "姚范": `文脉关系：至亲伯父、启蒙恩师 · 姚鼐核心家学根基<br><br>姚范为姚鼐伯父，乾嘉知名经学家，是姚鼐早年最重要的启蒙老师，为其筑牢程朱宋儒义理的治学根基。<br><br>他自幼教导姚鼐研读儒家经典，坚守宋学正统、不逐汉学时俗，塑造了姚鼐一生的治学立场，也是姚鼐四库馆辞官、坚守文道的核心思想根源。其严谨醇正的治学风格，直接推动姚鼐“义理、考据、辞章合一”核心思想的形成。`,
+  "方泽": `文脉关系：早年师承 · 坚守正统的传道名儒<br><br>方泽为清代江南醇儒，笃守程朱理学，是姚鼐少年求学阶段的重要恩师，对其品格与治学理念影响深远。<br><br>方泽一生坚守儒道正统、不趋学术潮流，言传身教培育姚鼐坚守本心、不迎合世俗的治学品格。这份“信道不从时”的初心，成为姚鼐日后拒随汉学主流、盛世辞官归隐、终身坚守宋学文道的重要精神底色。`,
+  "姚文然": `文脉关系：先祖先贤 · 桐城姚氏家风文脉奠基人<br><br>姚文然是姚鼐先祖，清初名臣、刑部尚书，为官清正廉明、精通经史，奠定了桐城姚氏“勤慎立身、廉介治学”的世家家风。<br><br>其清正务实、守道修身的处世准则世代传承，深刻影响姚鼐的为官、治学与立身之道。姚鼐终身秉持勤慎务实、不慕权荣的品性，坚守文道正统、淡泊仕途，皆源于先祖传承的优良家风文脉。`,
+  "姚淑": `文脉关系：生父 · 淡泊守道的家风传承者<br><br>姚淑为姚鼐生父，清代布衣儒生，终身不求仕进、潜心治学、修身立德，坚守儒家朴素正道。<br><br>他淡泊名利、专注斯文的人生态度，从小熏陶姚鼐，让其养成不慕官场荣华、深耕文道学术的人生追求，是姚鼐在仕途鼎盛之时毅然辞官、归隐书院传道著书的重要家风根源。`,
+  "梅曾亮": `文脉关系：姚门四杰之首 · 桐城文脉北方核心传承者<br><br>梅曾亮是姚鼐最得意的核心弟子、姚门四杰第一人，道光年间文坛盟主，完美承袭姚鼐完整文论体系。<br><br>他严守师门义法，坚守简洁雅正的桐城文风，摒弃浮华时文。长期驻守京师讲学收徒，将姚鼐完善的桐城派学术与文法在北方文坛广泛传播，打破地域局限，让桐城文脉成为清代中后期文坛主流，极大延续了师门鼎盛格局。`,
+  "管同": `文脉关系：姚门四杰 · 笃实纯粹的文论继承者<br><br>管同为姚鼐入室弟子，姚门核心骨干，嘉道年间知名古文创作者，终身坚守桐城文派正统。<br><br>他潜心研习姚鼐“三者合一”的文论思想，摒弃虚浮文风，文风质朴笃实、侧重经世载道，拒绝空谈学术。其创作与文论实践，完美践行了姚鼐“文以载道、学以致用”的治学理念，是师门正统文风的忠实传承者。`,
+  "方东树": `文脉关系：姚门四杰 · 宋儒道统捍卫者<br><br>方东树为姚鼐核心弟子，深耕理学与文论，是清代中后期捍卫宋儒正统、平衡汉宋学术的关键人物。<br><br>>他深度认同姚鼐坚守宋学、兼容考据的治学理念，针对乾嘉汉学独盛、排斥宋儒的学术弊端，著《汉学商兑》辩驳时弊，捍卫师门义理学说，调和汉宋之争，延续了姚鼐坚守学术本心、不随波逐流的治学精神。`,
+  "姚莹": `文脉关系：侄孙兼弟子 · 经世致用的实干传人<br><br>姚莹是姚鼐同族侄孙，同时拜师求学，是姚门少数兼具文名与实干能力的核心传人。<br><br>他承袭姚鼐兼容并包、经世致用的治学理念，摒弃空谈义理的陋习，深耕实务之学。为官期间守土报国、勤政利民，将桐城派“文以载道”的理念延伸为“学以致用、修身报国”的处世格局，拓宽了师门治学边界。`,
+  "陈用光": `文脉关系：入室弟子 · 官学体系文脉传播者<br><br>陈用光为姚鼐入室弟子，官至礼部侍郎，身居朝堂高位却终身尊崇师道、坚守桐城正统。<br><br>他依托朝堂官学平台，积极推广姚鼐的古文理论与桐城文法，在北方官场、学界广收门徒、宣讲师学，让桐城文脉深度融入清代官方学术体系，大幅提升了桐城派的官方影响力与正统地位。`,
+  "吴德旋": `文脉关系：私淑弟子 · 岭南文脉拓荒传播者<br><br>吴德旋终身私淑姚鼐，未正式拜师却终身恪守惜抱文法、尊崇桐城文道，是桐城派南方传播的关键人物。<br><br>他深耕古文创作与文论研究，完整承袭姚鼐的治学与创作理念，远赴岭南地区讲学授徒，将桐城文脉从江南拓展至华南地域，突破地域局限，极大拓宽了桐城派的传播版图与影响力。`,
+  "姚鼐": `文脉总览：桐城派集大成者<br><br>姚鼐承方苞义法、师刘大櫆神韵、承家学宋儒义理，融汇义理、考据、辞章为一体，编撰《古文辞类纂》，主讲书院四十余年，开班授徒绵延文脉，集桐城文派之大成，为清代中后期文坛树立正统文风与学术标杆。`
+};
+
+const introData = {
+  "姚鼐":{
+    desc:"姚鼐（1731—1815），字姬传，号惜抱先生，安徽桐城人，桐城派集大成者。乾隆二十八年进士，官至四库馆纂修官、记名御史。44岁辞官归隐，主讲书院四十余年，融合义理、考据、辞章，编定《古文辞类纂》，完善桐城派完整学术体系。",
+    sentence:"学问之事，义理、考据、辞章，三者不可偏废。"
+  },
+  "方苞":{
+    desc:"方苞（1668—1749），字灵皋，号望溪，桐城派开山始祖，首创古文「义法」，主张言有物、言有序，为桐城文派奠定根基，位列桐城三祖之首。",
+    sentence:"文以载道，法以立文。"
+  },
+  "刘大櫆":{
+    desc:"刘大櫆（1698—1779），字才甫，号海峰，桐城三祖之一，师法方苞，重古文神气、音节、韵味，为姚鼐亲授恩师，承上启下贯通桐城文脉。",
+    sentence:"神气者，文之最精处也。"
+  },
+  "姚范":{
+    desc:"姚范（1702—1771），字南青，号姜坞，姚鼐伯父，乾嘉著名经学家，坚守宋儒义理，为姚鼐早年最重要启蒙恩师，筑牢家学根基。",
+    sentence:"治学以宋儒为宗，不逐汉学风气。"
+  },
+  "方泽":{
+    desc:"方泽（1695—1773），字君善，笃守程朱理学，清代江南醇儒，少年授学姚鼐，培育其信道不从时、坚守儒道正统的品格。",
+    sentence:"少年负志气，信道不从时。"
+  },
+  "姚文然":{
+    desc:"姚文然（1620—1678），清初刑部尚书，桐城姚氏先祖，为官清正廉明，精通经史，奠定姚氏勤慎立身、廉介治学的世家家风。",
+    sentence:"居官以清慎为立身之本。"
+  },
+  "姚淑":{
+    desc:"姚淑，姚鼐生父，清代布衣儒生，终身不求仕进，潜心斯文、淡泊名利，以修身立德熏陶姚鼐一生处世志向。",
+    sentence:"淡泊以明志，斯文以修身。"
+  },
+  "梅曾亮":{
+    desc:"梅曾亮（1786—1856），姚门四杰之首，道光文坛盟主，严守桐城义法，京师讲学，将桐城文脉北传，成为北方文坛宗主。",
+    sentence:"守桐城文法，宗惜抱正轨。"
+  },
+  "管同":{
+    desc:"管同（1780—1831），姚门核心弟子，文风质朴笃实，重经世载道，摒弃虚浮时文，忠实践行姚鼐文以载道之教。",
+    sentence:"文贵务实，不贵空华。"
+  },
+  "方东树":{
+    desc:"方东树（1772—1851），姚门四杰，深耕理学，著《汉学商兑》，力捍宋儒道统，调和汉宋学术之争。",
+    sentence:"为学当明本末，不随风气转移。"
+  },
+  "姚莹":{
+    desc:"姚莹（1785—1853），姚鼐侄孙兼弟子，文武兼修，经世致用，为官守土报国，将桐城文学拓展为经世实学。",
+    sentence:"读书贵在致用，立道贵在修身。"
+  },
+  "陈用光":{
+    desc:"陈用光（1768—1835），姚鼐入室弟子，官至礼部侍郎，身居朝堂推广桐城文法，提升桐城派官方正统地位。",
+    sentence:"居高位而尊师道，处庙堂而守斯文。"
+  },
+  "吴德旋":{
+    desc:"吴德旋（1767—1840），终身私淑姚鼐，恪守惜抱文法，远赴岭南讲学，将桐城文脉拓展至华南地域。",
+    sentence:"未立师门，心宗惜抱。"
+  }
+};
+
+const personsAll = [
+  {name:'姚鼐',x:600,y:400,symbol:'roundRect',symbolSize:[110,50],itemStyle:{color:'#BC9F7B',borderColor:'#A18871',borderWidth:2}},
+  {name:'方苞',x:150,y:180,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#8D99A7'}},
+  {name:'刘大櫆',x:380,y:150,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#8D99A7'}},
+  {name:'姚范',x:600,y:100,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#8D99A7'}},
+  {name:'方泽',x:820,y:150,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#8D99A7'}},
+  {name:'姚文然',x:990,y:180,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#8D99A7'}},
+  {name:'姚淑',x:1180,y:220,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#8D99A7'}},
+  {name:'梅曾亮',x:160,y:600,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#9FAD8F'}},
+  {name:'管同',x:360,y:640,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#9FAD8F'}},
+  {name:'方东树',x:600,y:690,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#9FAD8F'}},
+  {name:'姚莹',x:840,y:640,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#9FAD8F'}},
+  {name:'陈用光',x:1040,y:600,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#9FAD8F'}},
+  {name:'吴德旋',x:1240,y:570,symbol:'roundRect',symbolSize:[90,40],itemStyle:{color:'#9FAD8F'}}
+];
+
+// 连线极简文字（无任何符号）
+const linksAll = [
+  {source:'方苞',target:'姚鼐',simple:'师承'},
+  {source:'刘大櫆',target:'姚鼐',simple:'师承'},
+  {source:'姚范',target:'姚鼐',simple:'家学'},
+  {source:'方泽',target:'姚鼐',simple:'师承'},
+  {source:'姚文然',target:'姚鼐',simple:'先祖'},
+  {source:'姚淑',target:'姚鼐',simple:'生父'},
+  {source:'姚鼐',target:'梅曾亮',simple:'师徒'},
+  {source:'姚鼐',target:'管同',simple:'师徒'},
+  {source:'姚鼐',target:'方东树',simple:'师徒'},
+  {source:'姚鼐',target:'姚莹',simple:'师承/族亲'},
+  {source:'姚鼐',target:'陈用光',simple:'师徒'},
+  {source:'姚鼐',target:'吴德旋',simple:'私淑'}
+];
+
+function getLevelData(lv){
+  let showNodes = [];
+  let showLinks = [];
+  if(lv === 0){
+    showNodes = personsAll.filter(item=>item.name==="姚鼐");
+  }else if(lv === 1){
+    const upNames = ["姚鼐","方苞","刘大櫆","姚范","方泽","姚文然","姚淑"];
+    showNodes = personsAll.filter(item=>upNames.includes(item.name));
+    showLinks = linksAll.filter(link=>upNames.includes(link.source)&&upNames.includes(link.target));
+  }else{
+    showNodes = [...personsAll];
+    showLinks = [...linksAll];
+  }
+  return {nodes:showNodes,links:showLinks};
+}
+
+function getSearchData(name){
+  const relatedLinks = linksAll.filter(link=>link.source===name||link.target===name);
+  const relatedNames = new Set(["姚鼐",name]);
+  relatedLinks.forEach(link=>{relatedNames.add(link.source);relatedNames.add(link.target);});
+  const nodes = personsAll.filter(item=>relatedNames.has(item.name)).map(item=>{
+    return {...item,itemStyle:{...item.itemStyle,opacity:(item.name===name||item.name==="姚鼐")?1:0.15}};
+  });
+  const links = linksAll.filter(link=>relatedNames.has(link.source)&&relatedNames.has(link.target));
+  return {nodes,links};
+}
+
+function renderChart(){
+  let nodes,links;
+  if(searchActive && searchTarget){
+    ({nodes,links} = getSearchData(searchTarget));
+  }else{
+    ({nodes,links} = getLevelData(level));
+  }
+  const option = {
+    animation: false,
+    tooltip:{ trigger:'item', confine: true, appendToBody: false },
+    series:[{
+      type:'graph',
+      layout:'none',
+      animation: false,
+      animationDuration: 0,
+      animationDurationUpdate: 0,
+      data:nodes,
+      links:links,
+      lineStyle:{color:'#BC9F7B',width:2,curveness:0.2},
+      label:{show:true,fontSize:14,color:'#fff'},
+      edgeLabel:{
+        show:true,
+        fontSize:12,
+        color:'#6D4C41',
+        formatter:function(params){
+          return params.data.simple;
+        }
+      },
+      emphasis:{lineStyle:{width:4}}
+    }]
+  };
+  chart.setOption(option, { notMerge: true, lazyUpdate: true });
+}
+
+function debounce(fn, ms) {
+  let t;
+  return function () {
+    clearTimeout(t);
+    const args = arguments;
+    t = setTimeout(function () { fn.apply(null, args); }, ms);
+  };
+}
+
+chart.on('click', function(params) {
+  const name = params.name;
+  if(name === "姚鼐" && !searchActive){
+    level = (level + 1) % 3;
+    renderChart();
+  }
+  if(relationData[name]){
+    relationWrap.innerHTML = `<h3 style="margin-bottom:10px;color:#6D4C41">${name} · 文脉关系</h3>${relationData[name]}`;
+    relationWrap.style.display = 'block';
+    biography.style.display = 'none';
+  }
+});
+
+chart.on('dblclick', function(params) {
+  const name = params.name;
+  if(introData[name]){
+    m_title.innerText = name;
+    m_desc.innerText = introData[name].desc;
+    m_quote.innerText = introData[name].sentence;
+    modal.style.display = 'block';
+  }
+});
+
+function applySearchInput() {
+  const key = search.value.trim();
+  if(!key){
+    searchActive = false;
+    searchTarget = '';
+    relationWrap.style.display = 'none';
+    biography.style.display = 'block';
+    noTip.style.display = 'none';
+    renderChart();
+    return;
+  }
+  const match = Object.keys(relationData).find(item => item.includes(key));
+  if(match){
+    searchActive = true;
+    searchTarget = match;
+    relationWrap.innerHTML = `<h3 style="margin-bottom:10px;color:#6D4C41">${match} · 文脉关系</h3>${relationData[match]}`;
+    relationWrap.style.display = 'block';
+    biography.style.display = 'none';
+    noTip.style.display = 'none';
+    renderChart();
+  }else{
+    searchActive = false;
+    searchTarget = '';
+    relationWrap.style.display = 'none';
+    biography.style.display = 'none';
+    noTip.style.display = 'block';
+    renderChart();
+  }
+}
+
+search.addEventListener('input', debounce(applySearchInput, 200));
+
+closeBtn.onclick = ()=> modal.style.display = 'none';
+modal.addEventListener('click', function (e) {
+  if (e.target === modal) modal.style.display = 'none';
+});
+
+renderChart();
+let resizeTimer;
+window.addEventListener('resize', function () {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function () { chart.resize(); }, 120);
+});
+window.addEventListener('pagehide', function () {
+  try {
+    if (chart && typeof chart.dispose === 'function') chart.dispose();
+  } catch (e) {}
+}, { capture: true });
+}
+
+if (window.requestIdleCallback) {
+  requestIdleCallback(bootRelation, { timeout: 200 });
+} else {
+  setTimeout(bootRelation, 16);
+}
+})();
+</script>
+<script src="js/intro-replay.js"></script>
+</body>
+</html>

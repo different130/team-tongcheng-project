@@ -1,0 +1,14 @@
+各地风景照放在本文件夹（images/life/）
+
+【湖南】
+- 页面地点 id：changsha（长沙/湖南典试）
+- 主配图：hunan.jpg（已配置）
+- 备用：changsha.jpg（与 hunan.jpg 相同，防止未加载 json 时找不到图）
+
+【默认规则】
+- 若未在 data/life-map.json 的 placeExtras 里单独指定，则使用 {地点id}.jpg
+- 例如：tongcheng.jpg、beijing.jpg
+
+【本地预览】
+- 推荐双击「打开作品.bat」用 http://localhost 打开，可正常读取 life-map.json
+- 若直接双击 life.html，现已内置备用路径，湖南图也应能显示

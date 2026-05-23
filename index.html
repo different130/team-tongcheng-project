@@ -1,0 +1,735 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姚鼐先生 · 数字生平图传</title>
+    <link rel="stylesheet" href="css/scroll-theme.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body.intro-on {
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            background: #faf8f4;
+            background-image: none;
+        }
+        body.intro-on .scroll-container {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* —— 封面：安徽桐城 · 启读图传 —— */
+        #introRoot {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            font-family: "PingFang SC", "Microsoft YaHei", "SimSun", "Songti SC", serif;
+            background:
+                radial-gradient(ellipse 80% 45% at 50% -5%, rgba(196, 165, 116, 0.14), transparent 55%),
+                #faf8f4;
+            color: #2c241c;
+            overflow: hidden;
+        }
+        .intro-cover {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .intro-page {
+            flex: 1;
+            width: min(460px, 100%);
+            margin: 0 auto;
+            padding: 40px 20px 16px;
+            text-align: center;
+        }
+        .intro-region {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0 0 6px;
+            padding: 5px 14px;
+            font-family: "FangSong", "STFangsong", "SimSun", serif;
+            font-size: 15px;
+            letter-spacing: 0.35em;
+            color: #8b2e22;
+            border: 1.5px solid rgba(166, 61, 47, 0.55);
+            border-radius: 2px;
+            background: rgba(255, 252, 248, 0.85);
+            transform: rotate(-2deg);
+            animation: introFadeUp 0.7s ease both;
+        }
+        .intro-region .dot {
+            letter-spacing: 0;
+            opacity: 0.65;
+        }
+        .intro-local {
+            margin: 10px 0 22px;
+            font-size: 13px;
+            color: #9a8f82;
+            letter-spacing: 0.22em;
+            animation: introFadeUp 0.7s ease 0.06s both;
+        }
+        .intro-title {
+            margin: 0 0 10px;
+            font-family: "SimSun", "Songti SC", "STSong", serif;
+            font-size: clamp(1.65rem, 5vw, 2.1rem);
+            font-weight: 700;
+            line-height: 1.45;
+            letter-spacing: 0.1em;
+            color: #1c1612;
+            animation: introFadeUp 0.7s ease 0.1s both;
+        }
+        .intro-ask {
+            margin: 0 0 26px;
+            font-family: "KaiTi", "STKaiti", "楷体", serif;
+            font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+            line-height: 1.85;
+            color: #6b5d52;
+            letter-spacing: 0.08em;
+            animation: introFadeUp 0.7s ease 0.14s both;
+        }
+        .intro-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 0 0 28px;
+            text-align: center;
+            animation: introFadeUp 0.7s ease 0.2s both;
+        }
+        .intro-card {
+            padding: 18px 10px 16px;
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid rgba(92, 64, 50, 0.2);
+            box-shadow: 0 6px 20px rgba(44, 36, 28, 0.1);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+        .intro-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(44, 36, 28, 0.16);
+        }
+        .intro-card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin: 0 auto 10px;
+            font-family: "KaiTi", "STKaiti", "楷体", serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #4a2a18;
+            background: linear-gradient(155deg, #e8dcc8 0%, #cdb896 100%);
+            border-radius: 50%;
+            border: 1.5px solid rgba(74, 42, 24, 0.45);
+            box-shadow: inset 0 1px 0 rgba(255, 252, 244, 0.5);
+        }
+        .intro-card:nth-child(1) .intro-card-icon {
+            color: #7a2218;
+            background: linear-gradient(155deg, #f0ddd6 0%, #d4a89a 100%);
+            border-color: rgba(122, 34, 24, 0.5);
+        }
+        .intro-card:nth-child(2) .intro-card-icon {
+            color: #3d2818;
+            background: linear-gradient(155deg, #e6dcc8 0%, #b89868 100%);
+            border-color: rgba(61, 40, 24, 0.52);
+        }
+        .intro-card:nth-child(3) .intro-card-icon {
+            color: #1f1610;
+            background: linear-gradient(155deg, #ddd4c4 0%, #a89478 100%);
+            border-color: rgba(31, 22, 16, 0.55);
+        }
+        .intro-card strong {
+            display: block;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1008;
+            letter-spacing: 0.12em;
+            margin-bottom: 6px;
+        }
+        .intro-card span {
+            display: block;
+            font-size: 11px;
+            line-height: 1.55;
+            color: #5c4a38;
+            letter-spacing: 0.04em;
+        }
+        .intro-enter-wrap {
+            animation: introFadeUp 0.7s ease 0.26s both;
+        }
+        .intro-enter {
+            display: inline-block;
+            width: 100%;
+            max-width: 280px;
+            padding: 14px 24px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            color: #fff;
+            background: linear-gradient(135deg, #9a6b4a 0%, #7d5438 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(125, 84, 56, 0.28);
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+        .intro-enter:hover {
+            filter: brightness(1.06);
+        }
+        .intro-enter:active {
+            transform: scale(0.98);
+        }
+        .intro-credits {
+            flex-shrink: 0;
+            padding: 18px 16px 22px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            background: rgba(250, 248, 244, 0.95);
+        }
+        .intro-credits-place {
+            margin: 0 0 10px;
+            font-size: 12px;
+            line-height: 1.7;
+            color: #7a6f64;
+            letter-spacing: 0.1em;
+        }
+        .intro-credits-team {
+            margin: 0;
+            font-size: 11px;
+            line-height: 1.85;
+            color: #a39b92;
+            letter-spacing: 0.02em;
+        }
+        .skip-corner {
+            position: fixed;
+            top: 12px;
+            right: 14px;
+            z-index: 10001;
+            padding: 6px 10px;
+            font-size: 13px;
+            color: #a39b92;
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 999px;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            font-family: inherit;
+            backdrop-filter: blur(6px);
+        }
+        .skip-corner:hover {
+            color: #5c5248;
+            background: #fff;
+        }
+        @media (max-width: 380px) {
+            .intro-cards {
+                grid-template-columns: 1fr;
+                max-width: 260px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        @keyframes introFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes dockIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* —— 卷轴首页：正文 + 人物侧栏 —— */
+        .home-layout {
+            display: grid;
+            grid-template-columns: 1fr min(400px, 44vw);
+            gap: 28px 32px;
+            align-items: start;
+        }
+        .home-main {
+            min-width: 0;
+        }
+        .character-dock {
+            position: relative;
+            padding-top: 8px;
+        }
+        .character-dock-inner {
+            position: sticky;
+            top: 20px;
+            animation: dockIn 0.85s ease 0.15s both;
+        }
+        .character-frame {
+            position: relative;
+            margin: 0 auto;
+            max-width: 360px;
+            border-radius: 50% 50% 42% 42% / 58% 58% 38% 38%;
+            overflow: hidden;
+            clip-path: ellipse(48% 46% at 50% 44%);
+            box-shadow:
+                0 18px 36px rgba(61, 43, 31, 0.22),
+                0 0 0 3px rgba(184, 154, 118, 0.55),
+                inset 0 0 40px rgba(255, 255, 255, 0.15);
+            background: radial-gradient(ellipse 70% 80% at 50% 100%, rgba(232, 220, 200, 0.95), rgba(250, 246, 236, 0.5));
+        }
+        .character-frame.replay-ready {
+            cursor: pointer;
+            box-shadow:
+                0 18px 36px rgba(61, 43, 31, 0.22),
+                0 0 0 3px rgba(150, 111, 74, 0.85),
+                0 0 0 6px rgba(184, 154, 118, 0.35),
+                inset 0 0 40px rgba(255, 255, 255, 0.15);
+        }
+        .character-video {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            object-position: center 12%;
+            position: relative;
+            z-index: 0;
+        }
+        .character-frame.has-png .character-video {
+            display: none;
+        }
+        .character-png {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 520px;
+            object-fit: contain;
+            object-position: center bottom;
+            position: relative;
+            z-index: 1;
+        }
+        .character-replay-tip {
+            margin-top: 10px;
+            margin-bottom: 2px;
+            text-align: center;
+            font-family: "楷体", STKaiti, KaiTi, serif;
+            font-size: 14px;
+            color: #6d4c41;
+            letter-spacing: 3px;
+        }
+        .character-caption {
+            margin-top: 14px;
+            padding: 12px 14px;
+            font-family: "楷体", STKaiti, KaiTi, serif;
+            font-size: clamp(16px, 1.75vw, 18px);
+            line-height: 1.75;
+            color: #2a1f14;
+            letter-spacing: 2px;
+            text-align: center;
+            min-height: 3.5em;
+            font-weight: 600;
+            background: rgba(255, 252, 244, 0.55);
+            border: 1px solid rgba(92, 64, 50, 0.28);
+            border-radius: 4px;
+        }
+        .character-hint {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #8d6e63;
+            text-align: center;
+            line-height: 1.6;
+            display: none;
+        }
+        .character-hint.is-visible {
+            display: block;
+        }
+
+        .home-main .narrative {
+            padding: 8px 0 8px 1.1em;
+            border-left: 5px double rgba(92, 64, 50, 0.38);
+            background-image: repeating-linear-gradient(
+                90deg,
+                transparent 0,
+                transparent 2.15em,
+                rgba(139, 58, 58, 0.08) 2.15em,
+                rgba(139, 58, 58, 0.08) calc(2.15em + 1px)
+            );
+        }
+        .narrative-title {
+            font-family: "KaiTi", "STKaiti", "楷体", serif;
+            font-size: clamp(30px, 3.2vw, 36px);
+            color: #1a1008;
+            margin-bottom: 22px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+        }
+        .narrative-content {
+            font-family: "KaiTi", "STKaiti", "楷体", "SimSun", serif;
+            text-indent: 2em;
+            font-size: clamp(21px, 2.15vw, 25px);
+            line-height: 2.15;
+            color: #241810;
+            font-weight: 700;
+        }
+        @media (max-width: 900px) {
+            .home-layout {
+                grid-template-columns: 1fr;
+            }
+            .character-dock {
+                order: -1;
+                max-width: 320px;
+                margin: 0 auto 8px;
+            }
+            .character-dock-inner {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body class="desk-site">
+
+    <div id="introRoot" aria-hidden="false">
+        <button type="button" class="skip-corner" id="skipCorner">略过</button>
+
+        <div class="intro-cover" id="startBox">
+            <div class="intro-page">
+                <p class="intro-region" aria-label="地域"><span>安徽</span><span class="dot">·</span><span>桐城</span></p>
+                <p class="intro-local">桐城派故里 · 龙眠山环 · 文都千载</p>
+                <h1 class="intro-title">姚鼐数字生平图传</h1>
+                <p class="intro-ask">桐城何以成派？惜抱先生何以立言？<br>由此识姚鼐，亦由此走近桐城文脉。</p>
+
+                <div class="intro-cards" aria-label="阅读路径">
+                    <article class="intro-card">
+                        <span class="intro-card-icon" aria-hidden="true">人</span>
+                        <strong>识其人</strong>
+                        <span>生平行迹<br>辞官讲学</span>
+                    </article>
+                    <article class="intro-card">
+                        <span class="intro-card-icon" aria-hidden="true">脉</span>
+                        <strong>溯师承</strong>
+                        <span>方刘姚范<br>文脉图谱</span>
+                    </article>
+                    <article class="intro-card">
+                        <span class="intro-card-icon" aria-hidden="true">文</span>
+                        <strong>读文心</strong>
+                        <span>义法考辞<br>登泰纪游</span>
+                    </article>
+                </div>
+
+                <div class="intro-enter-wrap">
+                    <button type="button" class="intro-enter" id="startMain">展卷入行</button>
+                </div>
+            </div>
+
+            <footer class="intro-credits">
+                <p class="intro-credits-place">龙眠文脉千载 · 安徽桐城姚鼐数字生平图传</p>
+                <p class="intro-credits-team">安庆师范大学人文学院 · 指导：王爽 · 开发：王晓琦 叶梦含 朱艳秀 · 数据：李颖乐 蔡瑶 朱艳秀 曹歌</p>
+            </footer>
+        </div>
+    </div>
+
+    <div class="scroll-container index-board">
+        <div class="scroll-roller scroll-roller--left" aria-hidden="true"></div>
+        <div class="scroll-roller scroll-roller--right" aria-hidden="true"></div>
+        <div class="corner-tl"></div>
+        <div class="corner-tr"></div>
+        <div class="corner-bl"></div>
+        <div class="corner-br"></div>
+
+        <div class="scroll-paper">
+        <h1>姚鼐先生 · 数字生平图传</h1>
+
+        <nav aria-label="站点导航">
+            <a href="index.html" class="active">首页</a>
+            <a href="relation.html">师承</a>
+            <a href="life.html">生平轨迹</a>
+            <a href="life2.html">登泰山</a>
+            <a href="conclusion.html">结论</a>
+        </nav>
+
+        <div class="home-layout">
+            <div class="home-main">
+                <div class="narrative">
+                    <div class="narrative-title">卷首小引</div>
+                    <div class="narrative-content">
+                        您好，我是桐城派三祖之一姚鼐，字姬传。欢迎来到我的生平展。
+                        <br><br>
+                        我出生于公元1731年12月20日，安徽桐城。少时随伯父姚范习经，后拜刘大櫆为师，深研古文。此后入京求学，数经科举起落，终在1763年中进士，授庶吉士，步入仕途。又历山东、湖南乡试副考官，入四库全书馆纂修，见学术风气之争，遂于1774年辞官归里。
+                        <br><br>
+                        我一生宦游、治学、授业、著述，始终以文为道，以心为灯。今日，愿与你一同回望我的人生行迹，感受桐城文脉的雅洁与风骨。
+                    </div>
+                </div>
+            </div>
+            <aside class="character-dock" aria-label="人物形象">
+                <div class="character-dock-inner">
+                    <div class="character-frame" id="characterFrame">
+                        <video class="character-video" id="yaonaiVideo" playsinline>
+                            <source src="姚鼐.mp4" type="video/mp4">
+                        </video>
+                        <img class="character-png" id="characterPng" src="images/姚鼐立绘.png" alt="" width="360" height="520" decoding="async" onerror="this.style.display='none'">
+                    </div>
+                    <p class="character-replay-tip" id="characterReplayTip" hidden>点击人物可再播一遍</p>
+                    <div class="character-caption" id="characterCaption" aria-live="polite">您好，我是姚鼐，想了解我的故事嘛，欢迎了解我的往事</div>
+                    <div class="character-hint" id="characterHint"></div>
+                </div>
+            </aside>
+        </div>
+        </div>
+
+        <footer class="site-credits" role="contentinfo">
+            <p class="site-credits-place">龙眠文脉千载 · 安徽桐城姚鼐数字生平图传</p>
+            <p class="site-credits-team">安庆师范大学人文学院 · 指导：王爽 · 开发：王晓琦 叶梦含 朱艳秀 · 数据：李颖乐 蔡瑶 朱艳秀 曹歌</p>
+        </footer>
+
+        <div class="scroll-watermark">
+            惜抱先生文集<br>
+            桐城文派之集大成者<br>
+            义理考据辞章合一<br>
+            文以载道 风骨长存
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+    (function () {
+        var introKey = 'tcIntroSeen';
+        var introRoot = document.getElementById('introRoot');
+        var startBox = document.getElementById('startBox');
+        var bgMusic = document.getElementById('bgMusic');
+        var yaonaiVideo = document.getElementById('yaonaiVideo');
+        var skipCorner = document.getElementById('skipCorner');
+        var startMain = document.getElementById('startMain');
+        var characterCaption = document.getElementById('characterCaption');
+        var characterHint = document.getElementById('characterHint');
+        var characterFrame = document.getElementById('characterFrame');
+        var characterPng = document.getElementById('characterPng');
+        var characterReplayTip = document.getElementById('characterReplayTip');
+
+        var talk = '您好，我是姚鼐，想了解我的故事嘛，欢迎了解我的往事';
+        var idx = 0;
+        var bgFadeTimer = null;
+        var typewriterTimer = null;
+
+        function clearTypewriter() {
+            if (typewriterTimer) {
+                clearTimeout(typewriterTimer);
+                typewriterTimer = null;
+            }
+        }
+
+        function clearBgFade() {
+            if (bgFadeTimer) {
+                clearInterval(bgFadeTimer);
+                bgFadeTimer = null;
+            }
+        }
+
+        function fadeOutBgMusic() {
+            if (!bgMusic || bgMusic.paused) return;
+            clearBgFade();
+            var steps = 18;
+            var startVol = bgMusic.volume;
+            if (startVol < 0.02) return;
+            var n = 0;
+            bgFadeTimer = setInterval(function () {
+                n++;
+                bgMusic.volume = Math.max(0, startVol * (1 - n / steps));
+                if (n >= steps) {
+                    clearBgFade();
+                    bgMusic.pause();
+                    bgMusic.currentTime = 0;
+                    bgMusic.volume = 0.12;
+                }
+            }, 50);
+        }
+
+        function silenceLayeredNoise() {
+            fadeOutBgMusic();
+            if (!characterFrame.classList.contains('has-png')) {
+                yaonaiVideo.muted = true;
+            }
+        }
+
+        yaonaiVideo.pause();
+        yaonaiVideo.loop = false;
+
+        yaonaiVideo.addEventListener('ended', function () {
+            if (characterFrame.classList.contains('has-png')) return;
+            silenceLayeredNoise();
+            characterFrame.classList.add('replay-ready');
+            characterFrame.setAttribute('title', '点击人物重播一遍');
+            characterReplayTip.hidden = false;
+        });
+
+        yaonaiVideo.addEventListener('play', function () {
+            characterFrame.classList.remove('replay-ready');
+            characterFrame.removeAttribute('title');
+            characterReplayTip.hidden = true;
+            if (yaonaiVideo.currentTime < 0.35) {
+                runTypewriter();
+            }
+        });
+
+        characterFrame.addEventListener('click', function () {
+            if (characterFrame.classList.contains('has-png')) return;
+            if (!yaonaiVideo.ended) return;
+            yaonaiVideo.currentTime = 0;
+            yaonaiVideo.muted = false;
+            yaonaiVideo.volume = 0.55;
+            yaonaiVideo.play().catch(function () {
+                characterHint.textContent = '无法重播，请检查视频或浏览器是否允许播放。';
+                characterHint.classList.add('is-visible');
+                characterFrame.classList.add('replay-ready');
+                characterReplayTip.hidden = false;
+                characterCaption.textContent = talk;
+            });
+        });
+
+        characterPng.addEventListener('load', function () {
+            if (characterPng.naturalWidth > 0) {
+                characterFrame.classList.add('has-png');
+                characterFrame.classList.remove('replay-ready');
+                characterFrame.removeAttribute('title');
+                characterReplayTip.hidden = true;
+                yaonaiVideo.pause();
+                if (!introRoot || introRoot.style.display === 'none') {
+                    runTypewriter();
+                }
+            }
+        });
+
+        yaonaiVideo.addEventListener('error', function () {
+            characterHint.textContent = '未找到或无法解码视频（请将 姚鼐.mp4 放在首页同级目录）。若有透明底人物图，可命名为 images/姚鼐立绘.png 获得抠图效果。';
+            characterHint.classList.add('is-visible');
+        });
+
+        function getTypewriterDelay() {
+            var d = yaonaiVideo.duration;
+            if (!d || !isFinite(d) || d < 1 || characterFrame.classList.contains('has-png')) {
+                return 130;
+            }
+            var ms = Math.max(0, (d - 0.55) * 1000);
+            return Math.max(70, Math.min(180, ms / talk.length));
+        }
+
+        function runTypewriter() {
+            clearTypewriter();
+            characterCaption.textContent = '';
+            characterCaption.setAttribute('aria-label', '姚鼐口白字幕');
+            idx = 0;
+            var started = false;
+
+            function begin() {
+                if (started) return;
+                started = true;
+                var delay = getTypewriterDelay();
+
+                function step() {
+                    if (idx < talk.length) {
+                        characterCaption.textContent += talk[idx];
+                        idx++;
+                        typewriterTimer = setTimeout(step, delay);
+                    }
+                }
+
+                typewriterTimer = setTimeout(step, 400);
+            }
+
+            if (characterFrame.classList.contains('has-png')) {
+                begin();
+                return;
+            }
+
+            if (yaonaiVideo.readyState >= 1 && yaonaiVideo.duration) {
+                begin();
+            } else {
+                yaonaiVideo.addEventListener('loadedmetadata', begin, { once: true });
+                typewriterTimer = setTimeout(begin, 1500);
+            }
+        }
+
+        function startHomeMedia() {
+            clearBgFade();
+            characterHint.classList.remove('is-visible');
+            characterHint.textContent = '';
+            characterReplayTip.hidden = true;
+            bgMusic.volume = 0.12;
+            bgMusic.play().catch(function () {});
+            if (characterFrame.classList.contains('has-png')) {
+                return;
+            }
+            yaonaiVideo.loop = false;
+            yaonaiVideo.currentTime = 0;
+            yaonaiVideo.muted = false;
+            yaonaiVideo.volume = 0.55;
+            yaonaiVideo.play().catch(function () {
+                characterHint.textContent = '视频未能自动播放（浏览器限制或文件缺失）。可改用透明底立绘：images/姚鼐立绘.png';
+                characterHint.classList.add('is-visible');
+                characterCaption.textContent = talk;
+                runTypewriter();
+            });
+        }
+
+        function revealHome() {
+            try { sessionStorage.setItem(introKey, '1'); } catch (e) {}
+            introRoot.style.display = 'none';
+            introRoot.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('intro-on');
+            if (window.location.search.indexOf('intro=1') !== -1) {
+                try {
+                    history.replaceState(null, '', 'index.html');
+                } catch (e2) {}
+            }
+            startHomeMedia();
+            if (characterFrame.classList.contains('has-png')) {
+                runTypewriter();
+            }
+        }
+
+        function shouldSkipIntro() {
+            var p = new URLSearchParams(window.location.search);
+            if (p.get('intro') === '1') {
+                try { sessionStorage.removeItem(introKey); } catch (e) {}
+                return false;
+            }
+            try {
+                return sessionStorage.getItem(introKey) === '1';
+            } catch (e) {
+                return false;
+            }
+        }
+
+        if (shouldSkipIntro()) {
+            revealHome();
+        } else {
+            document.body.classList.add('intro-on');
+        }
+
+        skipCorner.addEventListener('click', function () {
+            revealHome();
+        });
+        if (startMain) {
+            startMain.addEventListener('click', function (e) {
+                e.stopPropagation();
+                revealHome();
+            });
+        }
+    })();
+    </script>
+    <script src="js/intro-replay.js"></script>
+</body>
+</html>

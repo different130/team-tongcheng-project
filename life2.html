@@ -1,0 +1,2138 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登泰山记 · 姚鼐先生数字生平图传</title>
+    <link rel="stylesheet" href="css/scroll-theme.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --paper: #f7f1e3;
+            --panel: #f5e9d3;
+            --border: #b89a76;
+            --text: #3d2b1f;
+            --deep: #6d462b;
+            --gold: #d7ab59;
+            --mist: rgba(255, 255, 255, 0.72);
+        }
+
+        body.desk-site {
+            color: var(--text);
+            font-family: "SimSun", "宋体", "Microsoft YaHei", serif;
+        }
+
+        .scroll-container.scroll--clip {
+            min-height: calc(100vh - 24px);
+        }
+
+        .page-title {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .page-title .intro-banner {
+            width: 100%;
+            max-width: 100%;
+            padding: 20px 26px;
+            background: linear-gradient(145deg, rgba(255, 252, 242, 0.98), rgba(248, 236, 214, 0.92));
+            border: 2px solid #c49a5c;
+            border-radius: 14px;
+            box-shadow:
+                0 6px 22px rgba(61, 43, 28, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.75);
+        }
+
+        .page-title .intro-banner h2 {
+            font-size: 34px;
+            color: #1a1008;
+            margin-bottom: 14px;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            border-bottom: 2px solid rgba(196, 154, 92, 0.55);
+            padding-bottom: 10px;
+        }
+
+        .page-title .intro-banner p {
+            font-size: 18px;
+            line-height: 2.05;
+            color: #2f2115;
+            max-width: none;
+            text-align: justify;
+            text-justify: inter-ideograph;
+        }
+
+        .story-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.8fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .main-panel,
+        .side-panel {
+            background: rgba(255, 250, 240, 0.72);
+            border: 1px solid #d7bf9a;
+            border-radius: 12px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+        }
+
+        .main-panel {
+            padding: 18px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        button {
+            border: 1px solid #8d6946;
+            border-radius: 999px;
+            padding: 8px 16px;
+            cursor: pointer;
+            background: #fff9ef;
+            color: var(--text);
+            font-size: 15px;
+            transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+        }
+
+        button:hover {
+            background: #f2e2c6;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .status-card {
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.66);
+            border: 1px solid #dfccb0;
+            border-radius: 10px;
+            line-height: 1.65;
+        }
+
+        .status-label {
+            display: block;
+            font-size: 12px;
+            color: #8b6847;
+        }
+
+        .status-value {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #432918;
+        }
+
+        .scene-shell {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #bfcfe0;
+        }
+
+        .scene-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.03);
+            transition: opacity 700ms ease, transform 1100ms ease;
+            filter: saturate(0.94) contrast(1.04);
+        }
+
+        .scene-image.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 点景预览时：主图轻微推拉，与云雾动画叠加 */
+        .scene-shell.scene-live .scene-image.active {
+            animation: sceneKenBurns 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes sceneKenBurns {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.08) translate(-1.4%, -0.7%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .scene-shell.scene-live .scene-image.active {
+                animation: none;
+            }
+        }
+
+        .scene-mask {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(20, 16, 10, 0.08), rgba(20, 16, 10, 0.24)),
+                radial-gradient(circle at 20% 25%, rgba(255, 244, 205, 0.14), transparent 35%),
+                radial-gradient(circle at 80% 15%, rgba(255, 255, 255, 0.18), transparent 26%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .mist,
+        .mist::before,
+        .mist::after {
+            position: absolute;
+            inset: auto;
+            content: "";
+            pointer-events: none;
+            border-radius: 999px;
+            filter: blur(10px);
+        }
+
+        .mist {
+            left: -6%;
+            bottom: 5%;
+            width: 44%;
+            height: 15%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--mist), rgba(255, 255, 255, 0));
+            opacity: 0.55;
+            z-index: 6;
+            animation: mistMoveA 12s linear infinite;
+        }
+
+        .mist::before {
+            left: 45%;
+            top: -32%;
+            width: 52%;
+            height: 112%;
+            background: rgba(255, 255, 255, 0.68);
+        }
+
+        .mist::after {
+            left: 18%;
+            top: -18%;
+            width: 35%;
+            height: 92%;
+            background: rgba(255, 255, 255, 0.52);
+        }
+
+        .mist.alt {
+            left: 52%;
+            bottom: 16%;
+            width: 36%;
+            height: 12%;
+            opacity: 0.4;
+            animation: mistMoveB 16s linear infinite;
+        }
+
+        .mist.alt::before {
+            left: 8%;
+            top: -44%;
+            width: 44%;
+            height: 130%;
+        }
+
+        .mist.alt::after {
+            left: 52%;
+            top: -18%;
+            width: 28%;
+            height: 100%;
+        }
+
+        .fog-transition {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.24) 42%, transparent 70%),
+                radial-gradient(circle at 70% 45%, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.18) 46%, transparent 72%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.22));
+            opacity: 0;
+            z-index: 7;
+            pointer-events: none;
+            transition: opacity 500ms ease;
+        }
+
+        .fog-transition.visible {
+            opacity: 0.94;
+        }
+
+        .path-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .route-base {
+            fill: none;
+            stroke: rgba(84, 50, 29, 0.56);
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 14 12;
+        }
+
+        .route-glow {
+            fill: none;
+            stroke: rgba(255, 222, 124, 0.44);
+            stroke-width: 18;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 8px rgba(255, 218, 131, 0.56));
+        }
+
+        .route-progress {
+            fill: none;
+            stroke: url(#routeGradient);
+            stroke-width: 10;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: drop-shadow(0 0 10px rgba(255, 221, 128, 0.85));
+        }
+
+        .route-node {
+            fill: #fff7dd;
+            stroke: #7e4b29;
+            stroke-width: 3;
+            transition: fill 300ms ease, transform 300ms ease;
+        }
+
+        .route-node.active {
+            fill: #f4c561;
+            filter: drop-shadow(0 0 6px rgba(244, 197, 97, 0.85));
+        }
+
+        .route-label {
+            font-size: 18px;
+            fill: #fff8e8;
+            font-weight: 700;
+            paint-order: stroke;
+            stroke: rgba(70, 46, 29, 0.72);
+            stroke-width: 4;
+        }
+
+        .climber {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: clamp(80px, 9vw, 114px);
+            transform: translate(-50%, -50%);
+            transform-origin: 50% 80%;
+            z-index: 8;
+            transition: opacity 360ms ease;
+        }
+
+        .climber-sprite {
+            width: 100%;
+            display: block;
+            animation: climbBob 1.15s ease-in-out infinite;
+            transform-origin: 50% 88%;
+        }
+
+        .climber-frame {
+            aspect-ratio: 5 / 6;
+            border-radius: 48% 48% 42% 42% / 46% 46% 54% 54%;
+            overflow: hidden;
+            border: 2px solid rgba(255, 251, 242, 0.98);
+            box-shadow:
+                0 0 0 1px rgba(198, 160, 118, 0.45),
+                0 6px 18px rgba(62, 42, 28, 0.14),
+                0 14px 28px rgba(40, 26, 18, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55);
+            background: linear-gradient(168deg, #fdf9f2, #ebe0d0 55%, #dccfb8);
+        }
+
+        .climber-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 8%;
+            display: block;
+            transform: scale(1.05);
+            filter: saturate(0.95) contrast(0.95) brightness(1.05);
+        }
+
+        /* 登山进行时点缀山径小动物，烘托自然生机 */
+        .wildlife-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 520ms ease;
+        }
+
+        .scene-shell.wildlife-active .wildlife-layer {
+            opacity: 1;
+        }
+
+        .critter {
+            position: absolute;
+        }
+
+        .critter-squirrel .sq-tail,
+        .critter-squirrel .sq-body,
+        .critter-squirrel .sq-head {
+            position: absolute;
+            background: linear-gradient(165deg, #c9a078, #8b5e3c 55%, #6d4628);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+        }
+
+        .critter-squirrel .sq-tail {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            right: -4px;
+            top: 2px;
+            transform: rotate(-32deg);
+        }
+
+        .critter-squirrel .sq-body {
+            width: 22px;
+            height: 15px;
+            border-radius: 50%;
+            left: 10px;
+            top: 10px;
+        }
+
+        .critter-squirrel .sq-head {
+            width: 15px;
+            height: 14px;
+            border-radius: 50%;
+            left: 2px;
+            top: 6px;
+        }
+
+        .critter-squirrel {
+            width: 44px;
+            height: 34px;
+            transform-origin: 50% 80%;
+        }
+
+        .critter-squirrel-a {
+            bottom: 11%;
+            left: 6%;
+            animation: wildlifeSquirrelA 5.2s ease-in-out infinite;
+        }
+
+        .critter-squirrel-b {
+            bottom: 26%;
+            right: 14%;
+            animation: wildlifeSquirrelB 6.4s ease-in-out infinite;
+            animation-delay: -1.2s;
+        }
+
+        .critter-bird {
+            top: 18%;
+            right: 10%;
+            width: 28px;
+            height: 14px;
+            animation: wildlifeBird 4.8s ease-in-out infinite;
+        }
+
+        .critter-bird .wing-l,
+        .critter-bird .wing-r {
+            position: absolute;
+            width: 14px;
+            height: 8px;
+            background: linear-gradient(180deg, #ebe4d8, #b8a99a);
+            border-radius: 50% 50% 40% 40%;
+            top: 3px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+        }
+
+        .critter-bird .wing-l {
+            left: 0;
+            transform-origin: 100% 50%;
+            animation: wingFlap 0.45s ease-in-out infinite alternate;
+        }
+
+        .critter-bird .wing-r {
+            right: 0;
+            transform-origin: 0 50%;
+            animation: wingFlap 0.45s ease-in-out infinite alternate;
+            animation-delay: -0.22s;
+        }
+
+        .critter-bird .bird-body {
+            position: absolute;
+            left: 50%;
+            top: 4px;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 7px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #9a8b7a, #d4cbbf);
+        }
+
+        @keyframes wildlifeSquirrelA {
+            0%, 100% { transform: translate(0, 0) scaleX(1); }
+            30% { transform: translate(10px, -5px) scaleX(1); }
+            55% { transform: translate(22px, 2px) scaleX(-1); }
+            80% { transform: translate(5px, 4px) scaleX(-1); }
+        }
+
+        @keyframes wildlifeSquirrelB {
+            0%, 100% { transform: translate(0, 0) scaleX(-1); }
+            40% { transform: translate(-14px, -6px) scaleX(-1); }
+            65% { transform: translate(-26px, 3px) scaleX(1); }
+            85% { transform: translate(-8px, 0) scaleX(1); }
+        }
+
+        @keyframes wildlifeBird {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-18px, 8px); }
+        }
+
+        @keyframes wingFlap {
+            from { transform: rotate(-18deg); }
+            to { transform: rotate(12deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .critter-squirrel-a,
+            .critter-squirrel-b,
+            .critter-bird {
+                animation: none;
+            }
+            .critter-bird .wing-l,
+            .critter-bird .wing-r {
+                animation: none;
+            }
+        }
+
+        .scene-badge {
+            position: absolute;
+            left: 18px;
+            top: 18px;
+            z-index: 8;
+            padding: 10px 14px;
+            background: rgba(44, 27, 15, 0.52);
+            color: #fffdf6;
+            border: 1px solid rgba(255, 242, 220, 0.36);
+            border-radius: 999px;
+            backdrop-filter: blur(6px);
+            font-size: 15px;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar {
+            margin-top: 14px;
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(108, 79, 55, 0.14);
+            overflow: hidden;
+            border: 1px solid rgba(137, 104, 76, 0.18);
+        }
+
+        .progress-fill {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #b67a44, #d5ab5f, #fff1a3);
+            border-radius: inherit;
+            transition: width 180ms linear;
+        }
+
+        .stage-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .stage-timeline-hint {
+            margin: 14px 0 0;
+            font-size: 12px;
+            line-height: 1.55;
+            color: #7a5f46;
+        }
+
+        .stage-timeline-hint code {
+            font-size: 11px;
+            padding: 1px 5px;
+            border-radius: 4px;
+            background: rgba(255, 249, 238, 0.9);
+            border: 1px solid #e5d3b8;
+        }
+
+        .stage-item {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #dfc9a4;
+            background: rgba(255, 249, 238, 0.68);
+            transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .stage-item:focus-visible {
+            outline: 2px solid #c79249;
+            outline-offset: 3px;
+        }
+
+        .stage-item:hover {
+            border-color: #c9a574;
+            background: rgba(255, 252, 244, 0.88);
+        }
+
+        .stage-item strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #4a2f1d;
+        }
+
+        .stage-item span {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #73563f;
+        }
+
+        .stage-item.active {
+            background: rgba(255, 237, 195, 0.92);
+            border-color: #c79249;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(199, 146, 73, 0.18);
+        }
+
+        .side-panel {
+            padding: 18px;
+        }
+
+        .stage-history-card {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid #dfccb0;
+            border-radius: 12px;
+        }
+
+        .stage-history-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .stage-history-head h3 {
+            font-size: 22px;
+            color: #2d1c12;
+        }
+
+        .stage-history-step {
+            font-size: 13px;
+            color: #8a6a4a;
+            white-space: nowrap;
+        }
+
+        .stage-history-photo {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #dbc6a5;
+            margin-bottom: 10px;
+            background: #f6efe2;
+            transition: opacity 320ms ease;
+        }
+
+        .stage-history-era {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #8a6a4a;
+            margin-bottom: 10px;
+        }
+
+        .stage-history-body p {
+            font-size: 15px;
+            line-height: 1.85;
+            color: #5f4b39;
+            margin-bottom: 10px;
+        }
+
+        .stage-history-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .quiz-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(20, 14, 9, 0.55);
+            backdrop-filter: blur(3px);
+        }
+
+        .quiz-overlay.visible {
+            display: flex;
+        }
+
+        .quiz-modal {
+            width: min(720px, 96vw);
+            border-radius: 16px;
+            border: 1px solid rgba(217, 195, 160, 0.9);
+            background: rgba(255, 252, 245, 0.96);
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .quiz-header {
+            padding: 14px 16px;
+            background: linear-gradient(180deg, rgba(150, 111, 74, 0.18), rgba(245, 233, 211, 0.0));
+            border-bottom: 1px solid rgba(217, 195, 160, 0.7);
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .quiz-header h3 {
+            font-size: 18px;
+            color: #2d1c12;
+            letter-spacing: 1px;
+        }
+
+        .quiz-header .quiz-sub {
+            font-size: 13px;
+            color: #6b523d;
+        }
+
+        .quiz-body {
+            padding: 14px 16px 16px;
+        }
+
+        .quiz-quote {
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px dashed rgba(125, 89, 61, 0.42);
+            background: rgba(111, 75, 48, 0.06);
+            color: #5f4b39;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .quiz-question {
+            font-size: 16px;
+            color: #3d2b1f;
+            line-height: 1.85;
+            font-weight: 700;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .quiz-option {
+            text-align: left;
+            border-radius: 14px;
+            padding: 10px 12px;
+            border: 1px solid rgba(141, 105, 70, 0.35);
+            background: rgba(255, 249, 238, 0.92);
+            cursor: pointer;
+            transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+            user-select: none;
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-1px);
+            border-color: rgba(199, 146, 73, 0.6);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .quiz-option.selected {
+            border-color: rgba(199, 146, 73, 0.95);
+            background: rgba(255, 237, 195, 0.92);
+        }
+
+        .quiz-footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 12px 16px 16px;
+            border-top: 1px solid rgba(217, 195, 160, 0.7);
+            background: rgba(245, 233, 211, 0.45);
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quiz-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .quiz-feedback {
+            font-size: 14px;
+            color: #5f4b39;
+            line-height: 1.6;
+        }
+
+        .quiz-feedback.ok {
+            color: #2f6a34;
+            font-weight: 700;
+        }
+
+        .quiz-feedback.bad {
+            color: #8b2e1d;
+            font-weight: 700;
+        }
+
+        /* 景点介绍（阶段点击） */
+        .spot-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 950;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(20, 14, 9, 0.52);
+            backdrop-filter: blur(3px);
+        }
+
+        .spot-overlay.visible {
+            display: flex;
+        }
+
+        .spot-modal {
+            width: min(880px, 98vw);
+            max-height: min(92vh, 900px);
+            border-radius: 16px;
+            border: 1px solid rgba(217, 195, 160, 0.95);
+            background: rgba(255, 252, 245, 0.98);
+            box-shadow: 0 20px 64px rgba(0, 0, 0, 0.28);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spot-modal-head {
+            flex-shrink: 0;
+            padding: 14px 16px 12px;
+            background: linear-gradient(180deg, rgba(150, 111, 74, 0.16), rgba(245, 233, 211, 0));
+            border-bottom: 1px solid rgba(217, 195, 160, 0.65);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .spot-modal-head h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #2d1c12;
+            letter-spacing: 1px;
+        }
+
+        .spot-modal-sub {
+            margin: 6px 0 0;
+            font-size: 13px;
+            color: #6b523d;
+            line-height: 1.55;
+        }
+
+        .spot-close {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(125, 89, 61, 0.35);
+            background: rgba(255, 255, 255, 0.75);
+            font-size: 24px;
+            line-height: 1;
+            color: #5c4030;
+            cursor: pointer;
+        }
+
+        .spot-close:hover {
+            background: rgba(255, 245, 228, 0.95);
+        }
+
+        .spot-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 16px 18px;
+        }
+
+        .spot-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .spot-figure {
+            margin: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(190, 165, 130, 0.65);
+            background: #e8dfd2;
+        }
+
+        .spot-figure img {
+            display: block;
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            vertical-align: middle;
+        }
+
+        .spot-figure figcaption {
+            padding: 8px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #5f4b39;
+            background: rgba(255, 252, 245, 0.96);
+        }
+
+        .spot-intro p {
+            margin: 0 0 10px;
+            font-size: 14px;
+            line-height: 1.85;
+            color: #4a3628;
+            text-align: justify;
+        }
+
+        .spot-social-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-top: 14px;
+        }
+
+        .spot-social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        .spot-social-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .spot-social-btn.bili {
+            color: #fff;
+            background: linear-gradient(135deg, #fb7299, #ff8fb3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .spot-social-btn.dy {
+            color: #fff;
+            background: linear-gradient(135deg, #111, #333);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .spot-social-btn.muted {
+            background: rgba(120, 93, 68, 0.2);
+            color: #5f4b39;
+            border-color: rgba(125, 89, 61, 0.35);
+            font-weight: 600;
+        }
+
+        @keyframes climbBob {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-7px) rotate(2deg); }
+        }
+
+        @keyframes mistMoveA {
+            0% { transform: translateX(-12%) translateY(0); }
+            50% { transform: translateX(8%) translateY(-8px); }
+            100% { transform: translateX(22%) translateY(0); }
+        }
+
+        @keyframes mistMoveB {
+            0% { transform: translateX(8%) translateY(0); }
+            50% { transform: translateX(-10%) translateY(6px); }
+            100% { transform: translateX(-22%) translateY(0); }
+        }
+
+        @media (max-width: 1100px) {
+            .story-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .scroll-watermark {
+                display: none;
+            }
+        }
+
+        @media (max-width: 760px) {
+            body.desk-site {
+                padding: 6px 4px 12px;
+            }
+
+            .scroll-container.scroll--clip {
+                padding: 20px 16px 28px;
+            }
+
+            .page-title {
+                display: block;
+            }
+
+            .status-grid,
+            .stage-timeline {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            nav a {
+                margin-bottom: 8px;
+            }
+
+            .page-title .intro-banner {
+                padding: 16px 18px;
+            }
+
+            .page-title .intro-banner h2 {
+                font-size: 26px;
+                letter-spacing: 0.08em;
+            }
+
+            .page-title .intro-banner p {
+                font-size: 16px;
+                line-height: 1.95;
+            }
+        }
+    </style>
+</head>
+<body class="desk-site">
+    <div class="scroll-container scroll--clip">
+        <div class="scroll-roller scroll-roller--left" aria-hidden="true"></div>
+        <div class="scroll-roller scroll-roller--right" aria-hidden="true"></div>
+        <div class="corner-tl" aria-hidden="true"></div>
+        <div class="corner-tr" aria-hidden="true"></div>
+        <div class="corner-bl" aria-hidden="true"></div>
+        <div class="corner-br" aria-hidden="true"></div>
+
+        <h1>姚鼐先生 · 数字生平图传</h1>
+
+        <nav aria-label="站点导航">
+            <a href="index.html">首页</a>
+            <a href="relation.html">师承</a>
+            <a href="life.html">生平轨迹</a>
+            <a href="life2.html" class="active">登泰山</a>
+            <a href="conclusion.html">结论</a>
+        </nav>
+
+        <div class="page-title">
+            <div class="intro-banner">
+                <h2>本页说明</h2>
+                <p>本界面以路径可视化与分段叙事为主要手段，呈现姚鼐《登泰山记》所载登临路线与情境，便于观者在图像与文本的互参中把握山程结构与纪游书写之意趣。与此同时，页面亦嵌合当代青年夜攀泰山、候晓观云等通行经验及相关影像资源，使古典纪游文本与当下山岳文化实践形成对照，从而在自然与人文的双重维度上复现泰山之美，并增益课内对《登泰山记》的阅读与研习。</p>
+            </div>
+        </div>
+
+        <div class="story-layout">
+            <section class="main-panel">
+                <div class="controls">
+                    <button data-action="start">开始登山</button>
+                    <button data-action="pause">暂停</button>
+                    <button data-action="reset">重置</button>
+                    <button data-action="next">切换下一段</button>
+                    <label style="display:inline-flex;align-items:center;gap:8px;">
+                        <span style="font-size:13px;color:#6b523d;">音量</span>
+                        <input id="bgmVolume" type="range" min="0" max="1" step="0.01" value="0.45" aria-label="背景音乐音量">
+                    </label>
+                </div>
+                <div id="musicHint" style="margin:6px 2px 0;font-size:13px;line-height:1.6;color:#6b523d;">
+                    提示：进入页面后将尝试自动播放背景音乐；若浏览器限制无声，请轻触页面任意处或调高音量。配乐文件：<code>audio/taishan.mp3</code>。
+                </div>
+
+                <div class="status-grid">
+                    <div class="status-card"><span class="status-label">当前状态</span><span class="status-value" id="stateText">待启程</span></div>
+                    <div class="status-card"><span class="status-label">登山进度</span><span class="status-value" id="progressText">0%</span></div>
+                    <div class="status-card"><span class="status-label">当前场景</span><span class="status-value" id="sceneText">红门</span></div>
+                    <div class="status-card"><span class="status-label">山路程段</span><span class="status-value" id="ageText">红门</span></div>
+                </div>
+
+                <div class="scene-shell" id="sceneRoot">
+                    <img class="scene-image active" data-scene="0" src="images/taishan-stage-1.png" alt="红门">
+                    <img class="scene-image" data-scene="1" src="images/taishan-stage-2.jpg" alt="中天门">
+                    <img class="scene-image" data-scene="2" src="images/taishan-stage-3.jpg" alt="南天门">
+                    <img class="scene-image" data-scene="3" src="images/taishan-stage-4.jpg" alt="玉皇顶">
+
+                    <div class="scene-mask"></div>
+                    <div class="mist"></div>
+                    <div class="mist alt"></div>
+                    <div class="fog-transition" id="fogTransition"></div>
+                    <div class="wildlife-layer" aria-hidden="true">
+                        <div class="critter critter-squirrel critter-squirrel-a" title="山径松鼠">
+                            <span class="sq-tail"></span><span class="sq-body"></span><span class="sq-head"></span>
+                        </div>
+                        <div class="critter critter-squirrel critter-squirrel-b" title="山径松鼠">
+                            <span class="sq-tail"></span><span class="sq-body"></span><span class="sq-head"></span>
+                        </div>
+                        <div class="critter critter-bird" title="林鸟">
+                            <span class="wing-l"></span><span class="bird-body"></span><span class="wing-r"></span>
+                        </div>
+                    </div>
+                    <div class="scene-badge" id="sceneBadge">第一景 · 红门</div>
+
+                    <svg class="path-overlay" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="routeGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#e9bd68"></stop>
+                                <stop offset="45%" stop-color="#ffe59c"></stop>
+                                <stop offset="100%" stop-color="#fff8c9"></stop>
+                            </linearGradient>
+                        </defs>
+                        <path id="routeGlow" class="route-glow" d="M90 514 C138 486 174 468 225 446 C284 416 314 392 360 364 C420 328 455 304 510 275 C572 240 620 215 680 188 C748 158 802 124 860 96 C892 80 918 66 944 52"></path>
+                        <path id="routeBase" class="route-base" d="M90 514 C138 486 174 468 225 446 C284 416 314 392 360 364 C420 328 455 304 510 275 C572 240 620 215 680 188 C748 158 802 124 860 96 C892 80 918 66 944 52"></path>
+                        <path id="routeProgress" class="route-progress" d="M90 514 C138 486 174 468 225 446 C284 416 314 392 360 364 C420 328 455 304 510 275 C572 240 620 215 680 188 C748 158 802 124 860 96 C892 80 918 66 944 52"></path>
+                        <circle class="route-node" data-node="0" cx="90" cy="514" r="10"></circle>
+                        <circle class="route-node" data-node="1" cx="280" cy="405" r="10"></circle>
+                        <circle class="route-node" data-node="2" cx="515" cy="272" r="10"></circle>
+                        <circle class="route-node" data-node="3" cx="725" cy="164" r="10"></circle>
+                        <circle class="route-node" data-node="4" cx="944" cy="52" r="10"></circle>
+                        <text class="route-label" x="70" y="540">起</text>
+                        <text class="route-label" x="260" y="390">一</text>
+                        <text class="route-label" x="495" y="258">二</text>
+                        <text class="route-label" x="705" y="150">三</text>
+                        <text class="route-label" x="940" y="40">顶</text>
+                    </svg>
+
+                    <div class="climber" id="climber" role="img" aria-label="姚鼐登山形象（与侧栏插画一致）">
+                        <div class="climber-sprite">
+                            <div class="climber-frame">
+                                <img src="images/yaonai-climb.png" alt="" width="180" height="240" decoding="async" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <p class="stage-timeline-hint">点击四段山路：弹出<strong>景点介绍与美图</strong>，并联动主画面点景预览；地址栏 <code>#scene-0</code>～<code>#scene-3</code> 仅切换画面不自动弹层。B 站 / 抖音为站外打开（见弹层说明）。</p>
+                <div class="stage-timeline">
+                    <a class="stage-item active" href="#scene-0" data-stage-card="0" aria-label="预览红门风光与动态画面"><strong>红门</strong><span>辞京抵泰，自红门入山：石冷风急，每一步都像把庙堂旧事又卸下一层。心里一块石头落了地，又悬在半空——离了樊笼，此文心将托于何处？与子颖说笑几句，独处磴道时便默诵旧作，以山气洗俗虑。</span></a>
+                    <a class="stage-item" href="#scene-1" data-stage-card="1" aria-label="预览中天门风光与动态画面"><strong>中天门</strong><span>半程抵此，云与石磴为伴；回望来路细如线，城郭人烟俱远。心境由躁转静：不急着到顶，反把这一段当作与自己和解的功课。会想：律例公文已成昨日，眼下唯有呼吸与石级节律，自持渐生。</span></a>
+                    <a class="stage-item" href="#scene-2" data-stage-card="2" aria-label="预览南天门风光与动态画面"><strong>南天门</strong><span>十八盘风雪击面，腿软心不可软；险处方见执拗——彷佛再上一级，便离“天光”更近一寸。穿南天门如过天阙，天街在望：不是逞勇，而是一种被涤过的清明，愈知所弃与所守。</span></a>
+                    <a class="stage-item" href="#scene-3" data-stage-card="3" aria-label="预览玉皇顶风光与动态画面"><strong>玉皇顶</strong><span>登极待旦，万虑暂寂；五鼓之际见极天云色一线异变，鼻头微酸——非悲，乃文心被天地豁然拨开。当下便想以笔墨为山水留痕、为余生立誓：此后以文为命，故成《登泰山记》。</span></a>
+                </div>
+            </section>
+
+            <aside class="side-panel" aria-label="泰山四程史地介绍">
+                <article class="stage-history-card">
+                    <header class="stage-history-head">
+                        <h3 id="stageHistoryName">红门</h3>
+                        <span class="stage-history-step" id="stageHistoryStep">第 1 程 / 共 4 程</span>
+                    </header>
+                    <img class="stage-history-photo" id="stageHistoryPhoto" src="images/taishan-stage-1.png" alt="红门">
+                    <p class="stage-history-era" id="stageHistoryEra">一天门至万仙楼一带 · 传统登山起点</p>
+                    <div class="stage-history-body" id="stageHistoryBody"></div>
+                </article>
+            </aside>
+        </div>
+
+        <footer class="site-credits" role="contentinfo">
+            <p class="site-credits-place">龙眠文脉千载 · 安徽桐城姚鼐数字生平图传</p>
+            <p class="site-credits-team">安庆师范大学人文学院 · 指导：王爽 · 开发：王晓琦 叶梦含 朱艳秀 · 数据：李颖乐 蔡瑶 朱艳秀 曹歌</p>
+        </footer>
+
+        <div class="scroll-watermark">
+            红门起步 自问文心<br>
+            中天云深 俗虑渐息<br>
+            南天险道 执意向明<br>
+            玉皇待旦 笔墨为誓
+        </div>
+    </div>
+
+    <div class="quiz-overlay" id="quizOverlay" aria-hidden="true">
+        <div class="quiz-modal" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
+            <div class="quiz-header">
+                <h3 id="quizTitle">登泰山 · 闯关答题</h3>
+                <div class="quiz-sub" id="quizSub">到达新地点：需答对才可继续</div>
+            </div>
+            <div class="quiz-body">
+                <div class="quiz-question" id="quizQuestion">题目加载中…</div>
+                <div class="quiz-options" id="quizOptions"></div>
+                <div class="quiz-quote" id="quizQuote">原文提示加载中…</div>
+            </div>
+            <div class="quiz-footer">
+                <div class="quiz-feedback" id="quizFeedback">请选择一个答案。</div>
+                <div class="quiz-actions">
+                    <button id="quizSubmit">提交答案</button>
+                    <button id="quizReroll">换一题</button>
+                    <button id="quizExit">暂不作答</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="spot-overlay" id="spotOverlay" aria-hidden="true">
+        <div class="spot-modal" role="dialog" aria-modal="true" aria-labelledby="spotModalTitle">
+            <div class="spot-modal-head">
+                <div>
+                    <h3 id="spotModalTitle">景点介绍</h3>
+                    <p id="spotModalSub" class="spot-modal-sub"></p>
+                </div>
+                <button type="button" class="spot-close" id="spotClose" aria-label="关闭景点介绍">×</button>
+            </div>
+            <div class="spot-modal-body">
+                <div class="spot-gallery" id="spotGallery"></div>
+                <div class="spot-intro" id="spotIntro"></div>
+                <div class="spot-social-row">
+                    <a id="spotLinkBili" class="spot-social-btn bili" href="#" target="_blank" rel="noopener noreferrer">在 B 站打开</a>
+                    <a id="spotLinkDy" class="spot-social-btn dy" href="#" target="_blank" rel="noopener noreferrer">在抖音打开</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgm" preload="auto" loop>
+        <source src="audio/taishan.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const stageData = [
+            {
+                name: "红门",
+                badge: "第一景 · 红门",
+                range: [0, 24],
+                narration: "红门起步：辞京抵泰，古道石磴与风雪同行。每上一级，彷佛把京师案牍、人情机心又抛下一层；胸臆里一半是解脱的轻快，一半是“离了庙堂，此文心将安何处”的自问。与子颖说笑是慰，独处时便默诵旧章，借山气洗俗虑，壮怀与忐忑并存。"
+            },
+            {
+                name: "中天门",
+                badge: "第二景 · 中天门",
+                range: [25, 49],
+                narration: "中天门半程：云深路转，回望来路细如线，城郭人烟俱远。心里不躁了，反把这段山路当作与自己和解的课业——律例公文已成昨日，此刻只有呼吸与石级的节律。孤寂未消，却多了一分自持：不必急着到顶，先要走得清楚。"
+            },
+            {
+                name: "南天门",
+                badge: "第三景 · 南天门",
+                range: [50, 74],
+                narration: "南天门险途：十八盘风雪击面，筋骨欲软而志不可软。心里有一股执拗——再上一级，便离“天光”更近一寸。穿过门阙如过天险，天街在望：非逞匹夫之勇，而是一种被风雪涤过的清明，愈知所弃者何、所守者何。"
+            },
+            {
+                name: "玉皇顶",
+                badge: "第四景 · 玉皇顶",
+                range: [75, 100],
+                narration: "玉皇极顶：待旦之际万虑暂寂，五鼓云色一线异变，胸次豁然一震——非儿女之悲，乃文心被天地豁然拨开。当下念定：以笔墨为山水留痕，亦为余生立誓，故写下《登泰山记》；“苍山负雪，明烛天南”，既是目之所见，亦是心之所归。"
+            }
+        ];
+
+        /**
+         * 各登山阶段：景点介绍、美图、站外链接。
+         *
+         * 【换实拍图】把照片放进 images/spots/，文件名与下方 src 一致；或改 src 为你的文件名。
+         * 详细步骤见：images/spots/实拍说明.txt
+         *
+         * 【B 站 / 抖音】复制视频链接：B 站填 biliDirectUrl（支持 https://www.bilibili.com/video/BV… 或 https://b23.tv/…）；抖音填 douyinDirectUrl。
+         * 留空 "" 则按钮改为用 searchKeyword 打开平台搜索页。
+         *
+         * 若 spots 里还没有图、弹窗出现裂图：可临时把 src 改回 images/taishan-stage-1.png 等原有示意图。
+         */
+        const SPOT_GUIDE = [
+            {
+                subtitle: "一天门至万仙楼一带 · 传统登山起点",
+                paragraphs: [
+                    "红门因西北崖壁色赤若门而得名，与一天门、孔子登临处、天阶坊等连成古道序列，是泰山人文积淀最厚的一段。石坊夹道、碑刻层叠，游人自此处拾级而上，山气渐收、市声渐远。",
+                    "姚鼐《登泰山记》自京师风雪至泰安，与朱孝纯由南麓循中谷入山；今日经典路线亦多自红门宫一侧起步。冬春雪后石磴湿滑，更宜缓步观题刻、仰面看山势如何一层层抬升。"
+                ],
+                photos: [
+                    { src: "images/spots/hongmen-01.jpg", caption: "红门实拍一（请把同名文件放入 images/spots/）" },
+                    { src: "images/spots/hongmen-02.jpg", caption: "红门实拍二" }
+                ],
+                searchKeyword: "泰山红门 登山 攻略",
+                biliDirectUrl: "https://b23.tv/q0zvkek",
+                /* 抖音须为完整短链 https://v.douyin.com/视频ID/ ，勿只填域名；留空则按钮走下方关键词搜索 */
+                douyinDirectUrl: "https://v.douyin.com/ZwevsCYa1-Y/"
+            },
+            {
+                subtitle: "半程枢纽 · 云路与山脊交汇处",
+                paragraphs: [
+                    "中天门海拔约八百米，上承十八盘下接快活三，是东路登山的中途大站。此处山势开敞，可回望泰安城郭与汶河谷地；云雾起时常见山腰玉带、峰顶浮沉，摄影多取「层云托山脊」的构图。",
+                    "若与《登泰山记》互读，可体会古人半程歇脚、整束精神再向险段的心理节奏；现代游客亦多在此补水、观气象，再决定是否挑战南天门一线。"
+                ],
+                photos: [
+                    { src: "images/spots/zhongtianmen-01.jpg", caption: "中天门实拍一" },
+                    { src: "images/spots/zhongtianmen-02.jpg", caption: "中天门实拍二" }
+                ],
+                searchKeyword: "泰山中天门 云海 摄影",
+                biliDirectUrl: "https://b23.tv/tGwtSaI",
+                douyinDirectUrl: "https://v.douyin.com/d4EYwEW8TQE/"
+            },
+            {
+                subtitle: "十八盘尽头 · 天门洞开",
+                paragraphs: [
+                    "南天门踞飞龙岩、翔凤岭之间，仰视如天门中开；自下仰望石阶如悬梯，故有「紧十八、慢十八、不紧不慢又十八」之说。风雪天攀登时，风穿门洞声如虎啸，与文中「大风扬积雪击面」可相印证。",
+                    "过南天门即天街，店铺与祠庙错落，是「由人间向绝顶」的过渡带；拍摄宜注意安全，勿在狭窄磴道停留挡道。"
+                ],
+                photos: [
+                    { src: "images/spots/nanmen-01.jpg", caption: "南天门实拍一" },
+                    { src: "images/spots/nanmen-02.jpg", caption: "南天门实拍二" }
+                ],
+                searchKeyword: "泰山南天门 十八盘",
+                biliDirectUrl: "https://b23.tv/cuI9Zkw",
+                douyinDirectUrl: "https://v.douyin.com/BCB25AI4N0Y/"
+            },
+            {
+                subtitle: "主峰极顶 · 日观与封禅记忆",
+                paragraphs: [
+                    "玉皇顶为泰山主峰之巅，庙祀玉皇，周有「五岳独尊」等摩崖巨刻。晴日可环视鲁中山地；破晓时东望海天，正是《登泰山记》写「极天云一线异色」「日上正赤如丹」的所在。",
+                    "登顶后宜静观气象变化，勿忘护林防火与文物保护；若以本项目叙事观之，此处亦是姚鼐辞宦之后、借山水安顿文心的象征终点。"
+                ],
+                photos: [
+                    { src: "images/spots/yuhuangding-01.jpg", caption: "玉皇顶实拍一" },
+                    { src: "images/spots/yuhuangding-02.jpg", caption: "玉皇顶实拍二" }
+                ],
+                searchKeyword: "泰山玉皇顶 日出",
+                biliDirectUrl: "https://b23.tv/ZqdXRAv",
+                douyinDirectUrl: "https://v.douyin.com/zOvbZRfIvtE/"
+            }
+        ];
+
+        const STAGE_IMAGES = [
+            "images/taishan-stage-1.png",
+            "images/taishan-stage-2.jpg",
+            "images/taishan-stage-3.jpg",
+            "images/taishan-stage-4.jpg"
+        ];
+
+        const STAGE_HISTORY = stageData.map((stage, i) => ({
+            name: stage.name,
+            subtitle: (SPOT_GUIDE[i] && SPOT_GUIDE[i].subtitle) || "",
+            image: STAGE_IMAGES[i],
+            paragraphs: (SPOT_GUIDE[i] && SPOT_GUIDE[i].paragraphs) || []
+        }));
+
+        function buildBilibiliSearchUrl(keyword) {
+            return `https://search.bilibili.com/all?keyword=${encodeURIComponent(keyword)}`;
+        }
+
+        function buildDouyinSearchUrl(keyword) {
+            return `https://www.douyin.com/search/${encodeURIComponent(keyword)}`;
+        }
+
+        /** B 站分享可能夹带文案；提取标准视频页或 b23 短链。 */
+        function normalizeBilibiliDirectUrl(raw) {
+            if (raw == null || raw === "") return "";
+            const s = String(raw).trim();
+            const video = s.match(/https?:\/\/(?:www\.|m\.)?bilibili\.com\/video\/(BV[a-zA-Z0-9]+|bv[a-zA-Z0-9]+|av\d+)/i);
+            if (video) return `https://www.bilibili.com/video/${video[1]}`;
+            const shortM = s.match(/https?:\/\/b23\.tv\/[A-Za-z0-9]+/i);
+            return shortM ? shortM[0] : "";
+        }
+
+        /** 抖音「复制链接」常带口令后缀；只取 https://v.douyin.com/xxx/ 一段，避免 href 含空格导致仍打开旧页或无效。 */
+        function normalizeDouyinDirectUrl(raw) {
+            if (raw == null || raw === "") return "";
+            const m = String(raw).trim().match(/https?:\/\/v\.douyin\.com\/[A-Za-z0-9_-]+\/?/i);
+            if (!m) return "";
+            let u = m[0];
+            if (!u.endsWith("/")) u += "/";
+            return u;
+        }
+
+        const QUIZ_BANK = {
+            1: [
+                {
+                    id: "geo-1",
+                    quote: "泰山之阳，汶水西流；其阴，济水东流。",
+                    prompt: "原文中提到：泰山“之阳/其阴”分别对应哪两条河流的流向？",
+                    options: [
+                        "泰山之阳：汶水西流；其阴：济水东流",
+                        "泰山之阳：济水西流；其阴：汶水东流",
+                        "泰山之阳：汶水东流；其阴：济水西流",
+                        "泰山之阳：济水东流；其阴：汶水西流"
+                    ],
+                    answer: "泰山之阳：汶水西流；其阴：济水东流"
+                },
+                {
+                    id: "geo-2",
+                    quote: "余以乾隆三十九年十二月，自京师乘风雪……至于泰安。",
+                    prompt: "《登泰山记》中，作者从哪里出发，最终到达哪里？",
+                    options: ["自京师出发，至于泰安", "自泰安出发，至于济南", "自岱庙出发，至于日观亭", "自齐河出发，至于泰安"],
+                    answer: "自京师出发，至于泰安"
+                },
+                {
+                    id: "geo-3",
+                    quote: "是日，观道中石刻。",
+                    prompt: "原文中“是日，观道中石刻”一句，说明作者在路上主要做了哪件事？",
+                    options: ["观看路旁石刻题名", "在客舍饮酒作诗", "拜谒碧霞元君祠", "攀援绝壁采药"],
+                    answer: "观看路旁石刻题名"
+                },
+                {
+                    id: "geo-4",
+                    quote: "至日观数里内无树，而雪与人膝齐。",
+                    prompt: "从“至日观数里内无树”可推知，作者接近的地点是？",
+                    options: ["日观亭附近", "岱庙附近", "山麓城郭", "碧霞元君祠门外"],
+                    answer: "日观亭附近"
+                }
+            ],
+            2: [
+                {
+                    id: "temple-1",
+                    quote: "亭西有岱祠，又有碧霞元君祠。",
+                    prompt: "原文指出：亭西有哪些祠庙？",
+                    options: ["岱祠与碧霞元君祠", "孔庙与关帝庙", "龙王庙与文昌阁", "岱庙与城隍庙"],
+                    answer: "岱祠与碧霞元君祠"
+                },
+                {
+                    id: "temple-2",
+                    quote: "大风扬积雪击面。",
+                    prompt: "“大风扬积雪击面”描写了登山途中怎样的自然环境？",
+                    options: ["风大雪急、寒冷刺面", "云淡风轻、气候温和", "暴雨如注、道路泥泞", "烈日炙烤、尘土飞扬"],
+                    answer: "风大雪急、寒冷刺面"
+                },
+                {
+                    id: "temple-3",
+                    quote: "或曰：此东海也。",
+                    prompt: "原文中“或曰：此东海也”是对什么景象的误认/称呼？",
+                    options: ["远处云海", "山下平原", "岱祠香火", "日出红光"],
+                    answer: "远处云海"
+                },
+                {
+                    id: "temple-4",
+                    quote: "道皆砌石为磴，其级七千有余。",
+                    prompt: "《登泰山记》中山路台阶大约有多少级？",
+                    options: ["七千有余", "三千有余", "一万有余", "千级左右"],
+                    answer: "七千有余"
+                }
+            ],
+            3: [
+                {
+                    id: "sunrise-1",
+                    quote: "戊申晦，五鼓，与子颖坐日观亭，待日出。",
+                    prompt: "作者在什么时候、与谁在哪里等待日出？",
+                    options: [
+                        "戊申晦五鼓，与子颖坐日观亭待日出",
+                        "戊申朔五鼓，与子颖坐岱祠待日出",
+                        "己酉晦三鼓，与子颖坐日观亭待日出",
+                        "戊申晦五鼓，与友人坐南天门待日出"
+                    ],
+                    answer: "戊申晦五鼓，与子颖坐日观亭待日出"
+                },
+                {
+                    id: "sunrise-2",
+                    quote: "极天云一线异色，须臾成五采。",
+                    prompt: "原文中“极天云一线异色，须臾成五采”描写的是什么变化？",
+                    options: ["天边云色由异色迅速变为五彩", "山石纹理由黑变白", "积雪由厚转薄", "松林由暗转明"],
+                    answer: "天边云色由异色迅速变为五彩"
+                },
+                {
+                    id: "sunrise-3",
+                    quote: "或曰：此东海也。",
+                    prompt: "作者听人说“此东海也”，反映当时什么景观辽阔如海？",
+                    options: ["云海", "积雪", "松林", "人潮"],
+                    answer: "云海"
+                },
+                {
+                    id: "sunrise-4",
+                    quote: "今是也，余从之。",
+                    prompt: "原文“今是也，余从之”表达了作者怎样的态度？",
+                    options: ["认可并跟随建议/同行", "拒绝并独自返回", "讥笑并反驳众人", "犹豫不决暂缓行动"],
+                    answer: "认可并跟随建议/同行"
+                }
+            ],
+            4: [
+                {
+                    id: "view-1",
+                    quote: "苍山负雪，明烛天南。",
+                    prompt: "“苍山负雪，明烛天南”中，“明烛”形容什么效果？",
+                    options: ["雪光映照，照亮南天", "日光炙烤，南天昏暗", "火把连绵，照亮山路", "云层压顶，遮蔽南天"],
+                    answer: "雪光映照，照亮南天"
+                },
+                {
+                    id: "view-2",
+                    quote: "回视日观以西峰，或得日，或否，绛皓驳色，而皆若偻。",
+                    prompt: "原文描写日观亭以西的山峰在日照下呈现怎样的颜色变化？",
+                    options: ["绛皓驳色（红白相杂）", "青黑一色", "金黄通体", "碧绿如染"],
+                    answer: "绛皓驳色（红白相杂）"
+                },
+                {
+                    id: "view-3",
+                    quote: "山多石，少土。",
+                    prompt: "《登泰山记》中概括泰山地貌的特点是？",
+                    options: ["山多石，少土", "山多土，少石", "山多林，少石", "山多水，少石"],
+                    answer: "山多石，少土"
+                },
+                {
+                    id: "view-4",
+                    quote: "望晚日照城郭，汶水、徂徕如画，而半山居雾若带然。",
+                    prompt: "“半山居雾若带然”把半山的雾比作什么？",
+                    options: ["腰带", "海浪", "白练", "轻纱"],
+                    answer: "腰带"
+                }
+            ]
+        };
+
+        const stateLabelMap = {
+            idle: "待启程",
+            walking: "行进中",
+            climbing: "攀爬中",
+            arrived: "已登顶"
+        };
+
+        const root = document.getElementById("sceneRoot");
+        const routeProgress = document.getElementById("routeProgress");
+        const routeBase = document.getElementById("routeBase");
+        const climber = document.getElementById("climber");
+        const progressFill = document.getElementById("progressFill");
+        const fogTransition = document.getElementById("fogTransition");
+        const sceneBadge = document.getElementById("sceneBadge");
+        const sceneImages = Array.from(document.querySelectorAll(".scene-image"));
+        const stageCards = Array.from(document.querySelectorAll("[data-stage-card]"));
+        const routeNodes = Array.from(document.querySelectorAll(".route-node"));
+
+        const stateText = document.getElementById("stateText");
+        const progressText = document.getElementById("progressText");
+        const sceneText = document.getElementById("sceneText");
+        const ageText = document.getElementById("ageText");
+        const stageHistoryPhoto = document.getElementById("stageHistoryPhoto");
+        const stageHistoryName = document.getElementById("stageHistoryName");
+        const stageHistoryStep = document.getElementById("stageHistoryStep");
+        const stageHistoryEra = document.getElementById("stageHistoryEra");
+        const stageHistoryBody = document.getElementById("stageHistoryBody");
+
+        const pathLength = routeBase.getTotalLength();
+        routeProgress.style.strokeDasharray = pathLength;
+        routeProgress.style.strokeDashoffset = pathLength;
+
+        const appState = {
+            progress: 0,
+            mode: "idle",
+            activeScene: 0,
+            rafId: null,
+            speed: 0.16,
+            unlockedScene: 0,
+            quizOpen: false,
+            pendingUnlockScene: null,
+            usedQuizIdsByScene: new Map(),
+            scenePreviewOnly: false
+        };
+
+        const bgm = document.getElementById("bgm");
+        const bgmVolume = document.getElementById("bgmVolume");
+        const musicHint = document.getElementById("musicHint");
+
+        const quizOverlay = document.getElementById("quizOverlay");
+        const quizSub = document.getElementById("quizSub");
+        const quizQuestion = document.getElementById("quizQuestion");
+        const quizOptions = document.getElementById("quizOptions");
+        const quizQuote = document.getElementById("quizQuote");
+        const quizFeedback = document.getElementById("quizFeedback");
+        const quizSubmit = document.getElementById("quizSubmit");
+        const quizReroll = document.getElementById("quizReroll");
+        const quizExit = document.getElementById("quizExit");
+
+        const spotOverlay = document.getElementById("spotOverlay");
+        const spotModalTitle = document.getElementById("spotModalTitle");
+        const spotModalSub = document.getElementById("spotModalSub");
+        const spotGallery = document.getElementById("spotGallery");
+        const spotIntro = document.getElementById("spotIntro");
+        const spotLinkBili = document.getElementById("spotLinkBili");
+        const spotLinkDy = document.getElementById("spotLinkDy");
+        const spotClose = document.getElementById("spotClose");
+
+        const quizState = {
+            sceneIndex: null,
+            correctValue: null,
+            selectedValue: null,
+            lastQuestionId: null
+        };
+
+        function clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        function tryPlayBgm() {
+            if (!bgm) return;
+            const vol = Number(bgmVolume?.value ?? 0.45);
+            if (vol <= 0) return;
+            bgm.muted = false;
+            const playPromise = bgm.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(() => {
+                    if (musicHint) {
+                        musicHint.textContent = "提示：浏览器可能限制自动播放，或音频未就绪。请轻触页面；并确认 audio 目录下有 taishan.mp3。";
+                    }
+                });
+            }
+        }
+
+        function shuffleInPlace(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function ensureUsedSet(sceneIndex) {
+            if (!appState.usedQuizIdsByScene.has(sceneIndex)) {
+                appState.usedQuizIdsByScene.set(sceneIndex, new Set());
+            }
+            return appState.usedQuizIdsByScene.get(sceneIndex);
+        }
+
+        function pickQuizQuestion(sceneIndex) {
+            const bank = QUIZ_BANK[String(sceneIndex)] || QUIZ_BANK[sceneIndex];
+            if (!bank || bank.length === 0) {
+                return null;
+            }
+
+            const used = ensureUsedSet(sceneIndex);
+            const available = bank.filter((q) => !used.has(q.id));
+            const pool = available.length > 0 ? available : bank;
+            if (available.length === 0) {
+                used.clear();
+            }
+
+            const chosen = pool[Math.floor(Math.random() * pool.length)];
+            used.add(chosen.id);
+
+            const options = shuffleInPlace([...chosen.options]);
+            const correctValue = chosen.answer;
+            return {
+                id: chosen.id,
+                quote: chosen.quote,
+                prompt: chosen.prompt,
+                options,
+                correctValue
+            };
+        }
+
+        function setQuizFeedback(text, kind) {
+            quizFeedback.textContent = text;
+            quizFeedback.classList.remove("ok", "bad");
+            if (kind) quizFeedback.classList.add(kind);
+        }
+
+        function renderQuiz(sceneIndex) {
+            const stageName = stageData[sceneIndex]?.name || `地点${sceneIndex + 1}`;
+            quizSub.textContent = `到达「${stageName}」：答对一题解锁通关`;
+
+            const q = pickQuizQuestion(sceneIndex);
+            if (!q) {
+                quizQuestion.textContent = "题库为空：请先补充《登泰山记》题目。";
+                quizOptions.innerHTML = "";
+                quizQuote.textContent = "（暂无原文提示）";
+                quizState.correctValue = null;
+                quizState.selectedValue = null;
+                quizState.lastQuestionId = null;
+                setQuizFeedback("未配置题库，暂时无法通关。", "bad");
+                return;
+            }
+
+            quizState.sceneIndex = sceneIndex;
+            quizState.correctValue = q.correctValue;
+            quizState.selectedValue = null;
+            quizState.lastQuestionId = q.id;
+
+            quizQuestion.textContent = q.prompt;
+            quizQuote.textContent = `原文：${q.quote}`;
+            quizOptions.innerHTML = "";
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement("div");
+                const letter = String.fromCharCode(65 + idx);
+                btn.className = "quiz-option";
+                btn.setAttribute("data-value", opt);
+                btn.textContent = `${letter}．${opt}`;
+                btn.addEventListener("click", () => {
+                    quizState.selectedValue = opt;
+                    Array.from(quizOptions.querySelectorAll(".quiz-option")).forEach((el) => {
+                        el.classList.toggle("selected", el.getAttribute("data-value") === opt);
+                    });
+                    setQuizFeedback("已选择一个答案，点击“提交答案”判定。");
+                });
+                quizOptions.appendChild(btn);
+            });
+
+            setQuizFeedback("请选择一个答案。");
+        }
+
+        function closeSpotGuide() {
+            if (!spotOverlay) return;
+            spotOverlay.classList.remove("visible");
+            spotOverlay.setAttribute("aria-hidden", "true");
+        }
+
+        function openSpotGuide(sceneIndex) {
+            if (!spotOverlay || !SPOT_GUIDE[sceneIndex]) return;
+            const g = SPOT_GUIDE[sceneIndex];
+            const title = stageData[sceneIndex]?.name || `景点${sceneIndex + 1}`;
+
+            spotModalTitle.textContent = `${title} · 景点导览`;
+            spotModalSub.textContent = g.subtitle || "";
+
+            spotGallery.innerHTML = "";
+            (g.photos || []).forEach((p) => {
+                const fig = document.createElement("figure");
+                fig.className = "spot-figure";
+                const img = document.createElement("img");
+                img.src = p.src;
+                img.alt = p.caption || title;
+                img.loading = "lazy";
+                const cap = document.createElement("figcaption");
+                cap.textContent = p.caption || "";
+                fig.appendChild(img);
+                fig.appendChild(cap);
+                spotGallery.appendChild(fig);
+            });
+
+            spotIntro.innerHTML = "";
+            (g.paragraphs || []).forEach((para) => {
+                const el = document.createElement("p");
+                el.textContent = para;
+                spotIntro.appendChild(el);
+            });
+
+            const kw = g.searchKeyword || title;
+
+            const biliClean = normalizeBilibiliDirectUrl(g.biliDirectUrl);
+            const dyClean = normalizeDouyinDirectUrl(g.douyinDirectUrl);
+            spotLinkBili.href = biliClean || buildBilibiliSearchUrl(kw);
+            spotLinkDy.href = dyClean || buildDouyinSearchUrl(kw);
+            spotLinkBili.textContent = biliClean ? "打开指定 B 站链接" : "在 B 站搜索相关视频";
+            spotLinkDy.textContent = dyClean ? "打开指定抖音链接" : "在抖音搜索相关视频";
+            spotLinkBili.className = "spot-social-btn bili";
+            spotLinkDy.className = "spot-social-btn dy";
+
+            spotOverlay.classList.add("visible");
+            spotOverlay.setAttribute("aria-hidden", "false");
+        }
+
+        function openQuiz(sceneIndex) {
+            closeSpotGuide();
+            stopAnimation();
+            appState.scenePreviewOnly = false;
+            root.classList.remove("scene-live");
+            appState.mode = "idle";
+            appState.quizOpen = true;
+            appState.pendingUnlockScene = sceneIndex;
+            quizOverlay.classList.add("visible");
+            quizOverlay.setAttribute("aria-hidden", "false");
+            renderQuiz(sceneIndex);
+            render();
+        }
+
+        function closeQuiz() {
+            appState.quizOpen = false;
+            appState.pendingUnlockScene = null;
+            quizOverlay.classList.remove("visible");
+            quizOverlay.setAttribute("aria-hidden", "true");
+            setQuizFeedback("请选择一个答案。");
+        }
+
+        function getSceneIndex(progress) {
+            if (progress >= 75) return 3;
+            if (progress >= 50) return 2;
+            if (progress >= 25) return 1;
+            return 0;
+        }
+
+        function getStageForProgress(progress) {
+            return stageData[getSceneIndex(progress)];
+        }
+
+        function updateStageHistory(sceneIndex) {
+            const i = clamp(sceneIndex, 0, 3);
+            const h = STAGE_HISTORY[i];
+            if (!h) return;
+
+            if (stageHistoryPhoto) {
+                stageHistoryPhoto.src = h.image;
+                stageHistoryPhoto.alt = `${h.name} · 登山路程`;
+            }
+            if (stageHistoryName) stageHistoryName.textContent = h.name;
+            if (stageHistoryStep) stageHistoryStep.textContent = `第 ${i + 1} 程 / 共 4 程`;
+            if (stageHistoryEra) stageHistoryEra.textContent = h.subtitle;
+            if (stageHistoryBody) {
+                stageHistoryBody.innerHTML = h.paragraphs.map((p) => `<p>${p}</p>`).join("");
+            }
+            if (ageText) ageText.textContent = h.name;
+        }
+
+        function updateScene(sceneIndex) {
+            updateStageHistory(sceneIndex);
+            if (sceneIndex === appState.activeScene) {
+                return;
+            }
+
+            appState.activeScene = sceneIndex;
+            fogTransition.classList.add("visible");
+
+            window.setTimeout(() => {
+                sceneImages.forEach((image, index) => {
+                    image.classList.toggle("active", index === sceneIndex);
+                });
+
+                stageCards.forEach((card, index) => {
+                    card.classList.toggle("active", index === sceneIndex);
+                });
+
+                sceneBadge.textContent = appState.scenePreviewOnly
+                    ? `${stageData[sceneIndex].badge} · 点景预览`
+                    : stageData[sceneIndex].badge;
+                window.setTimeout(() => fogTransition.classList.remove("visible"), 180);
+            }, 260);
+        }
+
+        function renderRoute(progress) {
+            const visibleLength = pathLength * (progress / 100);
+            routeProgress.style.strokeDashoffset = String(pathLength - visibleLength);
+            progressFill.style.width = `${progress}%`;
+
+            routeNodes.forEach((node, index) => {
+                const threshold = index * 25;
+                node.classList.toggle("active", progress >= threshold);
+            });
+        }
+
+        function renderClimber(progress) {
+            const point = routeBase.getPointAtLength(pathLength * (progress / 100));
+            const nextPoint = routeBase.getPointAtLength(clamp(pathLength * (progress / 100) + 1, 0, pathLength));
+            const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180 / Math.PI;
+            const bob = appState.mode === "climbing" || appState.mode === "walking"
+                ? Math.sin(progress / 2.8) * 6
+                : 0;
+
+            const rootRect = root.getBoundingClientRect();
+            const scaleX = rootRect.width / 1000;
+            const scaleY = rootRect.height / 560;
+            climber.style.left = `${point.x * scaleX}px`;
+            climber.style.top = `${point.y * scaleY + bob}px`;
+            climber.style.transform = `translate(-50%, -50%) rotate(${clamp(angle, -28, 28)}deg)`;
+        }
+
+        function renderText() {
+            const progressStage = getStageForProgress(appState.progress);
+            const displayStage = appState.scenePreviewOnly ? stageData[appState.activeScene] : progressStage;
+            stateText.textContent = stateLabelMap[appState.mode];
+            progressText.textContent = `${Math.round(appState.progress)}%`;
+            sceneText.textContent = appState.scenePreviewOnly
+                ? `${displayStage.name}（点景预览）`
+                : progressStage.name;
+            sceneBadge.textContent = appState.scenePreviewOnly
+                ? `${stageData[appState.activeScene].badge} · 点景预览`
+                : stageData[getSceneIndex(appState.progress)].badge;
+        }
+
+        function render() {
+            renderRoute(appState.progress);
+            renderClimber(appState.progress);
+            renderText();
+            root.classList.toggle(
+                "wildlife-active",
+                appState.mode === "walking" || appState.mode === "climbing"
+            );
+        }
+
+        function stopAnimation() {
+            if (appState.rafId) {
+                cancelAnimationFrame(appState.rafId);
+                appState.rafId = null;
+            }
+        }
+
+        function setProgress(nextProgress) {
+            appState.scenePreviewOnly = false;
+            root.classList.remove("scene-live");
+            appState.progress = clamp(nextProgress, 0, 100);
+            const nextScene = getSceneIndex(appState.progress);
+            if (nextScene !== appState.activeScene) {
+                updateScene(nextScene);
+            }
+
+            if (nextScene > appState.unlockedScene && !appState.quizOpen) {
+                appState.progress = stageData[nextScene].range[0];
+                openQuiz(nextScene);
+                return;
+            }
+
+            if (appState.progress >= 100) {
+                appState.progress = 100;
+                appState.mode = "arrived";
+                stopAnimation();
+            } else if (appState.progress > 12) {
+                appState.mode = "climbing";
+            }
+
+            render();
+        }
+
+        function tick() {
+            if (appState.mode !== "walking" && appState.mode !== "climbing") {
+                return;
+            }
+
+            const nextTarget = appState.progress + appState.speed;
+            const lockScene = appState.unlockedScene + 1;
+            if (lockScene <= 3) {
+                const boundary = stageData[lockScene].range[0];
+                if (appState.progress < boundary && nextTarget >= boundary) {
+                    setProgress(boundary);
+                    return;
+                }
+            }
+
+            setProgress(nextTarget);
+            if (appState.mode !== "arrived") {
+                appState.rafId = requestAnimationFrame(tick);
+            }
+        }
+
+        function start() {
+            if (appState.mode === "arrived") return;
+            appState.mode = appState.progress > 12 ? "climbing" : "walking";
+            if (!appState.rafId) {
+                appState.rafId = requestAnimationFrame(tick);
+            }
+            tryPlayBgm();
+            render();
+        }
+
+        function pause() {
+            stopAnimation();
+            if (appState.mode !== "arrived") {
+                appState.mode = "idle";
+            }
+            render();
+        }
+
+        function focusStageScene(sceneIndex) {
+            const i = clamp(sceneIndex, 0, 3);
+            stopAnimation();
+            appState.mode = "idle";
+            appState.scenePreviewOnly = true;
+            root.classList.add("scene-live");
+            updateScene(i);
+            render();
+            try {
+                root.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (_) {}
+        }
+
+        function applySceneHashFromLocation() {
+            const m = /^#scene-([0-3])$/.exec(location.hash || "");
+            if (m) {
+                focusStageScene(Number(m[1]));
+                return true;
+            }
+            if (appState.scenePreviewOnly) {
+                appState.scenePreviewOnly = false;
+                root.classList.remove("scene-live");
+                updateScene(getSceneIndex(appState.progress));
+                render();
+            }
+            return false;
+        }
+
+        function reset() {
+            closeSpotGuide();
+            stopAnimation();
+            appState.progress = 0;
+            appState.mode = "idle";
+            appState.activeScene = -1;
+            appState.unlockedScene = 0;
+            appState.quizOpen = false;
+            appState.pendingUnlockScene = null;
+            appState.usedQuizIdsByScene = new Map();
+            appState.scenePreviewOnly = false;
+            root.classList.remove("scene-live");
+            if (window.history && window.history.replaceState) {
+                const base = `${location.pathname}${location.search}`;
+                history.replaceState(null, "", base);
+            }
+            sceneImages.forEach((image, index) => image.classList.toggle("active", index === 0));
+            stageCards.forEach((card, index) => card.classList.toggle("active", index === 0));
+            sceneBadge.textContent = stageData[0].badge;
+            setProgress(0);
+            closeQuiz();
+        }
+
+        function nextStage() {
+            const nextScene = clamp(appState.activeScene + 1, 0, 3);
+            const nextProgress = stageData[nextScene].range[0];
+            setProgress(nextProgress);
+        }
+
+        stageCards.forEach((card) => {
+            card.addEventListener("click", (event) => {
+                const raw = card.getAttribute("data-stage-card");
+                const idx = raw == null ? NaN : Number(raw);
+                if (Number.isNaN(idx)) return;
+                if (appState.quizOpen) return;
+                event.preventDefault();
+                const hash = `#scene-${idx}`;
+                if (location.hash !== hash && window.history && window.history.replaceState) {
+                    history.replaceState(null, "", `${location.pathname}${location.search}${hash}`);
+                }
+                focusStageScene(idx);
+                openSpotGuide(idx);
+            });
+        });
+
+        if (spotClose) {
+            spotClose.addEventListener("click", () => closeSpotGuide());
+        }
+        if (spotOverlay) {
+            spotOverlay.addEventListener("click", (event) => {
+                if (event.target === spotOverlay) closeSpotGuide();
+            });
+        }
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") return;
+            if (spotOverlay && spotOverlay.classList.contains("visible")) {
+                closeSpotGuide();
+            }
+        });
+
+        window.addEventListener("hashchange", () => {
+            applySceneHashFromLocation();
+        });
+
+        document.addEventListener("click", (event) => {
+            const action = event.target.getAttribute("data-action");
+
+            if (action === "start") {
+                closeSpotGuide();
+                start();
+            }
+            if (action === "pause") pause();
+            if (action === "reset") reset();
+            if (action === "next") nextStage();
+        });
+
+        quizSubmit.addEventListener("click", () => {
+            if (!appState.quizOpen) return;
+            if (!quizState.correctValue) {
+                setQuizFeedback("题库为空，无法判定。", "bad");
+                return;
+            }
+            if (!quizState.selectedValue) {
+                setQuizFeedback("还没有选择答案。", "bad");
+                return;
+            }
+
+            if (quizState.selectedValue === quizState.correctValue) {
+                const unlocked = quizState.sceneIndex ?? appState.pendingUnlockScene;
+                appState.unlockedScene = Math.max(appState.unlockedScene, unlocked);
+                setQuizFeedback("回答正确：已解锁通关，可以继续前进。", "ok");
+                window.setTimeout(() => {
+                    closeQuiz();
+                    render();
+                }, 380);
+            } else {
+                setQuizFeedback("回答不对：请再试一次（也可以换一题）。", "bad");
+            }
+        });
+
+        quizReroll.addEventListener("click", () => {
+            if (!appState.quizOpen) return;
+            const s = appState.pendingUnlockScene ?? quizState.sceneIndex;
+            renderQuiz(s);
+        });
+
+        quizExit.addEventListener("click", () => {
+            if (!appState.quizOpen) return;
+            closeQuiz();
+            render();
+        });
+
+        if (bgm) {
+            bgm.volume = Number(bgmVolume?.value ?? 0.45);
+        }
+        if (bgm) {
+            bgm.addEventListener("loadedmetadata", () => {
+                if (musicHint) {
+                    musicHint.textContent = "背景音乐已加载：将自动播放（若无声请轻触页面）。";
+                }
+                tryPlayBgm();
+            });
+            bgm.addEventListener("canplay", () => {
+                if (musicHint) {
+                    musicHint.textContent = "背景音乐就绪：将自动播放（若无声请轻触页面）。";
+                }
+                tryPlayBgm();
+            });
+            bgm.addEventListener("error", () => {
+                if (musicHint) {
+                    musicHint.textContent = "音乐加载失败：请确认 audio/taishan.mp3 存在且可播放。";
+                }
+            });
+            // Give a quick hint if the source is missing (common when running via file://).
+            window.setTimeout(() => {
+                if (!musicHint) return;
+                // 3 = NETWORK_NO_SOURCE; 1/2 may occur during load.
+                if (bgm.networkState === 3) {
+                    musicHint.textContent = "未检测到泰山配乐：请将音乐放入 audio/taishan.mp3 后刷新页面。";
+                }
+            }, 450);
+        }
+        if (bgmVolume) {
+            bgmVolume.addEventListener("input", () => {
+                if (!bgm) return;
+                bgm.volume = Number(bgmVolume.value);
+                if (Number(bgmVolume.value) === 0) {
+                    bgm.muted = true;
+                } else {
+                    bgm.muted = false;
+                    tryPlayBgm();
+                }
+            });
+        }
+        window.addEventListener("resize", render);
+
+        document.addEventListener("pointerdown", tryPlayBgm, { capture: true, once: true });
+
+        window.TaishanJourney = {
+            start,
+            pause,
+            reset,
+            setProgress,
+            focusStageScene,
+            openSpotGuide,
+            closeSpotGuide,
+            getState() {
+                return { ...appState };
+            }
+        };
+
+        updateStageHistory(0);
+        applySceneHashFromLocation();
+        render();
+        tryPlayBgm();
+    </script>
+    <script src="js/intro-replay.js"></script>
+</body>
+</html>

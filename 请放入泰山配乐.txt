@@ -1,0 +1,6 @@
+登泰山页（life2.html）背景音乐：
+
+  文件名：taishan.mp3
+  位置：本文件夹（audio/taishan.mp3）
+
+更换配乐时，请保持上述文件名，或同步修改 life2.html 中的音频路径。

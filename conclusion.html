@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>结论与互动 · 姚鼐先生数字生平图传</title>
+    <link rel="stylesheet" href="css/scroll-theme.css">
+    <style>
+        .narrative-title {
+            font-size: 28px;
+            color: #2D1C12;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .narrative-content {
+            text-indent: 2em;
+            font-size: 20px;
+            line-height: 2.0;
+            color: #3D2B1F;
+            font-weight: 500;
+            margin-bottom: 18px;
+        }
+        #interactive {
+            scroll-margin-top: 12px;
+            border-top: 2px solid rgba(184, 154, 118, 0.85);
+            padding-top: 24px;
+            margin-top: 28px;
+        }
+        .interactive-head {
+            font-size: 24px;
+            color: #2D1C12;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .interactive-lead {
+            font-size: 16px;
+            color: #5c4435;
+            margin-bottom: 14px;
+            line-height: 1.7;
+        }
+        #chatBox {
+            height: min(420px, 52vh);
+            overflow-y: auto;
+            padding: 16px;
+            background: #fef9f0;
+            border-radius: 10px;
+            border: 1px solid #e0d0b8;
+            margin-bottom: 14px;
+            line-height: 1.95;
+        }
+        #chatBox::-webkit-scrollbar { width: 6px; }
+        #chatBox::-webkit-scrollbar-thumb { background: #d1b99b; border-radius: 3px; }
+        .msg { margin: 14px 0; max-width: 82%; word-wrap: break-word; font-size: 16px; }
+        .msg.user { margin-left: auto; text-align: right; color: #3a4b5c; background: #eef4f9; padding: 10px 14px; border-radius: 16px 16px 4px 16px; }
+        .msg.robot { text-align: left; color: #6b4226; background: #f3e9da; padding: 10px 14px; border-radius: 16px 16px 16px 4px; }
+        .inputArea { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        #inputTxt {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 1px solid #e0d0b8;
+            border-radius: 24px;
+            font-size: 16px;
+            font-family: "KaiTi", "楷体", "SimSun", serif;
+            background: #fffbf5;
+            outline: none;
+        }
+        #sendBtn {
+            padding: 12px 22px;
+            background: #7a5230;
+            color: #fff;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        #sendBtn:hover { background: #5c3c21; }
+
+        @media (max-width: 720px) {
+            h1 { font-size: 28px; }
+            .narrative-content { font-size: 17px; }
+        }
+    </style>
+</head>
+<body class="desk-site">
+    <div class="scroll-container">
+        <div class="scroll-roller scroll-roller--left" aria-hidden="true"></div>
+        <div class="scroll-roller scroll-roller--right" aria-hidden="true"></div>
+        <div class="corner-tl" aria-hidden="true"></div>
+        <div class="corner-tr" aria-hidden="true"></div>
+        <div class="corner-bl" aria-hidden="true"></div>
+        <div class="corner-br" aria-hidden="true"></div>
+
+        <div class="scroll-paper">
+        <h1>姚鼐先生 · 数字生平图传</h1>
+
+        <nav aria-label="站点导航">
+            <a href="index.html">首页</a>
+            <a href="relation.html">师承</a>
+            <a href="life.html">生平轨迹</a>
+            <a href="life2.html">登泰山</a>
+            <a href="conclusion.html" class="active">结论</a>
+        </nav>
+
+        <div class="narrative-title">结尾升华</div>
+
+        <div id="conclusionText">
+            <div class="narrative-content">桐城文脉，起于皖山皖水，兴于一代文人。</div>
+            <div class="narrative-content">我登泰山而见天地，治古文而明道义。桐城派不仅是安徽的文化瑰宝，更是中华文脉长河中一束不灭的灯火。</div>
+            <div class="narrative-content">愿文脉永续，精神长存，让古典智慧照亮新的旅程。</div>
+        </div>
+
+        <section id="interactive" aria-labelledby="interactiveTitle">
+            <h2 class="interactive-head" id="interactiveTitle">惜抱居士 · 观众互动</h2>
+            <p class="interactive-lead">读毕上文总结，可在此发问；惜抱居士依关键词作答，答语以打字方式逐字呈现。</p>
+            <div id="chatBox" aria-live="polite" aria-relevant="additions"></div>
+            <div class="inputArea">
+                <input type="text" id="inputTxt" placeholder="有话欲陈，键入即发……" maxlength="200" autocomplete="off" />
+                <button type="button" id="sendBtn">发送</button>
+            </div>
+        </section>
+
+        </div>
+
+        <footer class="site-credits" role="contentinfo">
+            <p class="site-credits-place">龙眠文脉千载 · 安徽桐城姚鼐数字生平图传</p>
+            <p class="site-credits-team">安庆师范大学人文学院 · 指导：王爽 · 开发：王晓琦 叶梦含 朱艳秀 · 数据：李颖乐 蔡瑶 朱艳秀 曹歌</p>
+        </footer>
+
+        <div class="scroll-watermark">桐城派 · 姚鼐 · 文脉传承</div>
+    </div>
+
+    <script>
+        (function () {
+            var chatBox = document.getElementById("chatBox");
+            var inputTxt = document.getElementById("inputTxt");
+            var sendBtn = document.getElementById("sendBtn");
+
+            var typeSpeed = 55;
+
+            var refuseWords = [
+                "此事鼐不甚了了，未敢妄对。愿君更他题：或论诗文义法，或话名山旧游，鼐方有可接之语。",
+                "兹事体杂，恐涉多言，鼐未便细陈。君若得经史疑义一二，或唐贤诗一联，见示相质，最相宜也。",
+                "此非鼐闻见所及，恕难具答。君且就古文、考据、辞章之属发问，鼐试以所知对之。"
+            ];
+
+            var topics = [
+                {
+                    name: "hobby",
+                    keywords: ["喜欢干什么","喜欢干嘛","平常喜欢什么","爱好","平时做什么","闲下来","平日里","日常"],
+                    baseScore: 99,
+                    reply: "鼐素拙应酬，惟坐惜抱轩中，丹铅棐几，日与经籍相周旋；夜阑或草一文。兴来则策杖入山，听泉观云，借以养气。世俗浮华，非所愿也。"
+                },
+                {
+                    name: "taishan",
+                    keywords: ["泰山","登泰山记","登山","云海","日出"],
+                    baseScore: 90,
+                    reply: "乾隆三十九年岁暮，鼐自京师冒雪至泰安，与朱子颍饮于日观亭，俟日出；所谓苍山负雪、明烛天南者，世多有能诵之者。此文只记道里时日，藉抒一时胸臆，非敢以奇观夸示人也。"
+                },
+                {
+                    name: "life",
+                    keywords: ["你是谁","介绍","生平","经历","哪里人","出身"],
+                    baseScore: 90,
+                    reply: "鼐桐城人，字姬传，号惜抱。少受学于刘海峰先生之门，与诸君子商榷经史；乾隆朝曾预修四库，然性不耐吏事，竟拂衣归，讲学钟山、梅花间。老矣，惟望来者勿坠古文正脉。"
+                },
+                {
+                    name: "food",
+                    keywords: ["吃什么","爱吃什么","饮食","喝茶","口味"],
+                    baseScore: 90,
+                    reply: "朝夕脱粟青蔬而已，泉茗一瓯，瓦缶煮之，亦觉齿颊俱清。肥甘厚味，于病体不宜，于士大夫人品亦无取焉。"
+                },
+                {
+                    name: "praise",
+                    keywords: "喜欢你 佩服 敬佩 写得好 很棒 欣赏".split(" "),
+                    baseScore: 90,
+                    reply: "过情之誉，愧不敢承。文章得失，寸心自知；来学不弃，鼐又何幸。至于溢美之词，适增愧怍耳。"
+                },
+                {
+                    name: "greet",
+                    keywords: ["你好","您好","久仰","幸会"],
+                    baseScore: 80,
+                    reply: "承蒙枉顾，何幸如之。所欲言者，但书屏上，鼐当次第奉答。"
+                },
+                {
+                    name: "tongcheng",
+                    keywords: ["桐城派","古文","写文章","义理","考据","辞章"],
+                    baseScore: 85,
+                    reply: "古文一道，义理、考据、辞章，鼐尝谓缺一不可：义理植其根，考据厚其实，辞章发其华；偏废则体不立矣。究竟到头，仍须于六经八家中沈潜涵泳，日积月累，自有所得，非可空谈得之。"
+                },
+                {
+                    name: "conclusion",
+                    keywords: ["总结","结尾","升华","结论","读完","上面","上文"],
+                    baseScore: 88,
+                    reply: "上文所陈，乃数字传记之收束语：以桐城文脉为纲，以泰山、古文为目，欲令观者知源流所自。君若尚有疑义，不妨就桐城义法、登临旧事再询一二。"
+                }
+            ];
+
+            function typeWrite(el, text, i, onDone) {
+                if (i < text.length) {
+                    el.textContent += text.charAt(i);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    setTimeout(function () { typeWrite(el, text, i + 1, onDone); }, typeSpeed);
+                } else if (typeof onDone === "function") {
+                    onDone();
+                }
+            }
+
+            function addMsg(content, isRobot) {
+                var div = document.createElement("div");
+                div.className = "msg " + (isRobot ? "robot" : "user");
+                chatBox.appendChild(div);
+                if (isRobot) {
+                    div.textContent = "";
+                    typeWrite(div, content, 0);
+                } else {
+                    div.textContent = content;
+                }
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+
+            function getRefuseText() {
+                return refuseWords[Math.floor(Math.random() * refuseWords.length)];
+            }
+
+            function getReply(userInput) {
+                var t = userInput.toLowerCase();
+                var bestScore = 0;
+                var bestReply = null;
+                var ti, tj, score, kw;
+                for (ti = 0; ti < topics.length; ti++) {
+                    score = 0;
+                    for (tj = 0; tj < topics[ti].keywords.length; tj++) {
+                        kw = topics[ti].keywords[tj];
+                        if (t.indexOf(kw) !== -1) score += topics[ti].baseScore;
+                    }
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestReply = topics[ti].reply;
+                    }
+                }
+                if (bestScore > 0) return bestReply;
+                return getRefuseText();
+            }
+
+            addMsg(
+                "鼐字姬传，号惜抱，桐城人也。日居惜抱轩，与古人卷轴为邻，山水之游，亦未尝废。君若问古文义法、读书次第，或岱宗汶上旧事，鼐力所能至者，必以实对，不以虚辞敷衍。",
+                true
+            );
+
+            function sendChat() {
+                var text = inputTxt.value.trim();
+                if (!text) return;
+                addMsg(text, false);
+                inputTxt.value = "";
+                setTimeout(function () {
+                    var ans = getReply(text);
+                    addMsg(ans, true);
+                }, 400);
+            }
+
+            sendBtn.addEventListener("click", sendChat);
+            inputTxt.addEventListener("keydown", function (e) {
+                if (e.key !== "Enter") return;
+                e.preventDefault();
+                sendChat();
+            });
+        })();
+    </script>
+    <script src="js/intro-replay.js"></script>
+</body>
+</html>

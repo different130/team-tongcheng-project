@@ -1,0 +1,359 @@
+/* 全站卷轴与案几底 — 与首页统一 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body.desk-site {
+    padding: 6px 4px 14px;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse 85% 55% at 50% 0%, rgba(62, 48, 36, 0.12), transparent 50%),
+        linear-gradient(180deg, #2a2218 0%, #3d3229 12%, #4a3d32 100%);
+    font-family: "SimSun", "Songti SC", "Microsoft Yahei", serif;
+    color: #2a1f14;
+}
+
+.scroll-container {
+    position: relative;
+    width: 100%;
+    max-width: min(1680px, calc(100vw - 8px));
+    margin: 0 auto;
+    min-height: 90vh;
+    --scroll-roller-space: 26px;
+    padding: 20px calc(12px + var(--scroll-roller-space)) 24px;
+    border-radius: 2px;
+    border: 2px solid #5c4032;
+    outline: 1px solid #c4a574;
+    outline-offset: 3px;
+    color: #2a1f14;
+    background-color: #e8dcc4;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.022) 0 1px, transparent 1px 4px),
+        radial-gradient(ellipse 100% 55% at 50% -5%, rgba(255, 248, 232, 0.45), transparent 52%),
+        linear-gradient(180deg, #f2e6d4 0%, #e5d6c2 38%, #dcc9b0 100%);
+    background-repeat: no-repeat;
+    box-shadow:
+        0 0 0 1px rgba(42, 28, 18, 0.35),
+        inset 0 0 100px rgba(101, 67, 33, 0.07),
+        inset 0 0 2px rgba(255, 255, 255, 0.35),
+        0 22px 48px rgba(0, 0, 0, 0.28);
+}
+
+.scroll-container.scroll-wide {
+    max-width: min(1720px, calc(100vw - 8px));
+}
+
+.scroll-container.scroll-flush {
+    max-width: none;
+    width: calc(100% - 4px);
+}
+
+/* 卷轴轴头：置于左右留白槽内，不压住正文 */
+.scroll-roller {
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    width: 16px;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 48% / 5%;
+    background:
+        repeating-linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.07) 0 1px,
+            transparent 1px 6px
+        ),
+        linear-gradient(
+            90deg,
+            #1f1208 0%,
+            #4a3018 12%,
+            #7a5638 28%,
+            #c4a574 46%,
+            #e8d8b8 50%,
+            #9a7348 58%,
+            #5c3d22 78%,
+            #2a1810 100%
+        );
+    box-shadow:
+        inset 1px 0 4px rgba(255, 248, 232, 0.35),
+        inset -2px 0 8px rgba(0, 0, 0, 0.4),
+        0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-roller--left {
+    left: 8px;
+}
+
+.scroll-roller--right {
+    right: 8px;
+    left: auto;
+    background:
+        repeating-linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.07) 0 1px,
+            transparent 1px 6px
+        ),
+        linear-gradient(
+            270deg,
+            #1f1208 0%,
+            #4a3018 12%,
+            #7a5638 28%,
+            #c4a574 46%,
+            #e8d8b8 50%,
+            #9a7348 58%,
+            #5c3d22 78%,
+            #2a1810 100%
+        );
+}
+
+/* 上下木轴头 */
+.scroll-roller::before,
+.scroll-roller::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 35% 30%, #f0e4c8 0%, #b89258 38%, #5c3d22 72%, #2a1810 100%);
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.35),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    z-index: 2;
+}
+
+.scroll-roller::before {
+    top: -11px;
+}
+
+.scroll-roller::after {
+    bottom: -11px;
+}
+
+.scroll-paper,
+.scroll-body {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+}
+
+.scroll-container .corner-tl,
+.scroll-container .corner-tr,
+.scroll-container .corner-bl,
+.scroll-container .corner-br {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border: 3px solid #5c4032;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.scroll-container .corner-tl { top: 14px; left: 14px; border-width: 3px 0 0 3px; border-radius: 4px 0 0 0; }
+.scroll-container .corner-tr { top: 14px; right: 14px; border-width: 3px 3px 0 0; border-radius: 0 4px 0 0; }
+.scroll-container .corner-bl { bottom: 14px; left: 14px; border-width: 0 0 3px 3px; border-radius: 0 0 0 4px; }
+.scroll-container .corner-br { bottom: 14px; right: 14px; border-width: 0 3px 3px 0; border-radius: 0 0 4px 0; }
+
+.desk-site .scroll-container h1,
+.scroll-container h1 {
+    font-family: "KaiTi", "STKaiti", "楷体", "SimSun", serif;
+    font-size: clamp(34px, 4vw, 46px);
+    color: #1a1008;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    letter-spacing: 0.2em;
+    font-weight: 800;
+    text-align: center;
+    border-bottom: 3px double rgba(92, 64, 50, 0.55);
+    text-shadow: 0 1px 0 rgba(255, 250, 240, 0.35);
+}
+
+.desk-site nav,
+.scroll-container nav {
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed rgba(92, 64, 50, 0.35);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.desk-site nav a,
+.scroll-container nav a {
+    display: inline-block;
+    padding: 8px 20px;
+    background: linear-gradient(180deg, #7a4e32 0%, #5c3822 100%);
+    color: #fdf6e9;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: "SimSun", "Songti SC", "Microsoft YaHei", serif;
+    letter-spacing: 0.08em;
+    border: 1px solid #3d2618;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.desk-site nav a:hover,
+.scroll-container nav a:hover {
+    filter: brightness(1.08);
+}
+
+.desk-site nav a.active,
+.scroll-container nav a.active {
+    background: linear-gradient(180deg, #9a6a42 0%, #7a4e32 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 3px 6px rgba(0, 0, 0, 0.22);
+}
+
+.scroll-watermark {
+    position: absolute;
+    left: calc(8px + var(--scroll-roller-space, 26px));
+    top: 100px;
+    bottom: 100px;
+    writing-mode: vertical-rl;
+    font-size: 14px;
+    color: #6d5340;
+    opacity: 0.72;
+    line-height: 2;
+    font-family: "KaiTi", "楷体", serif;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    z-index: 5;
+    text-shadow: 0 0 1px rgba(255, 248, 232, 0.4);
+    pointer-events: none;
+}
+
+@media (max-width: 900px) {
+    .scroll-container {
+        padding: 20px 12px 24px;
+    }
+    .scroll-roller {
+        display: none;
+    }
+    .scroll-watermark {
+        display: none;
+    }
+}
+
+/* 首页：加宽版心，减少两侧留白 */
+.scroll-container.index-board {
+    max-width: min(1720px, calc(100vw - 8px));
+}
+
+/* 登泰山等需裁切内部动画溢出的卷轴 */
+.scroll-container.scroll--clip {
+    overflow: hidden;
+}
+
+/* 生平轨迹页：外层 flex 保留，内框对齐全站卷轴皮与案几 */
+body.desk-site .app {
+    padding: 4px 2px 12px;
+    min-height: 100vh;
+    background: transparent;
+}
+
+body.desk-site .scroll-frame {
+    position: relative;
+    max-width: min(1720px, calc(100vw - 8px));
+    margin: 0 auto;
+    border-radius: 2px;
+    border: 2px solid #5c4032;
+    outline: 1px solid #c4a574;
+    outline-offset: 3px;
+    padding: 14px 14px 12px;
+    background-color: #e8dcc4;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.022) 0 1px, transparent 1px 4px),
+        radial-gradient(ellipse 100% 55% at 50% -5%, rgba(255, 248, 232, 0.45), transparent 52%),
+        linear-gradient(180deg, #f2e6d4 0%, #e5d6c2 38%, #dcc9b0 100%);
+    box-shadow:
+        0 0 0 1px rgba(42, 28, 18, 0.35),
+        inset 0 0 100px rgba(101, 67, 33, 0.07),
+        inset 0 0 2px rgba(255, 255, 255, 0.35),
+        0 22px 48px rgba(0, 0, 0, 0.28);
+}
+
+body.desk-site .scroll-frame > .corner-tl,
+body.desk-site .scroll-frame > .corner-tr,
+body.desk-site .scroll-frame > .corner-bl,
+body.desk-site .scroll-frame > .corner-br {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border: 3px solid #5c4032;
+    z-index: 20;
+    pointer-events: none;
+}
+
+body.desk-site .scroll-frame > .corner-tl {
+    top: 14px;
+    left: 14px;
+    border-width: 3px 0 0 3px;
+    border-radius: 4px 0 0 0;
+}
+
+body.desk-site .scroll-frame > .corner-tr {
+    top: 14px;
+    right: 14px;
+    border-width: 3px 3px 0 0;
+    border-radius: 0 4px 0 0;
+}
+
+body.desk-site .scroll-frame > .corner-bl {
+    bottom: 14px;
+    left: 14px;
+    border-width: 0 0 3px 3px;
+    border-radius: 0 0 0 4px;
+}
+
+body.desk-site .scroll-frame > .corner-br {
+    bottom: 14px;
+    right: 14px;
+    border-width: 0 3px 3px 0;
+    border-radius: 0 0 4px 0;
+}
+
+/* 全站页脚：安徽桐城 · 制作分工 */
+.site-credits {
+    position: relative;
+    z-index: 5;
+    margin-top: 22px;
+    padding: 14px 12px 18px;
+    text-align: center;
+    border-top: 1px solid rgba(92, 64, 50, 0.22);
+    background: rgba(255, 252, 244, 0.42);
+}
+
+.site-credits-place {
+    margin: 0 0 8px;
+    font-family: "FangSong", "STFangsong", "SimSun", "Songti SC", serif;
+    font-size: 12px;
+    line-height: 1.75;
+    color: #5c4032;
+    letter-spacing: 0.1em;
+}
+
+.site-credits-team {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.85;
+    color: #7a6f64;
+    letter-spacing: 0.02em;
+}
+
+.scroll-container.scroll--clip .site-credits {
+    flex-shrink: 0;
+    margin-top: 16px;
+}
+
+.relation-board > .site-credits {
+    margin: 12px 12px 16px;
+}
